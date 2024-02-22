@@ -46,11 +46,6 @@ function showModal(title) {
   closeBtn.addEventListener("click", function () {
     document.body.removeChild(modal);
   });
-
-  modalContent.innerHTML = title + " functionality to be implemented.";
-  modalContent.appendChild(closeBtn);
-  modal.appendChild(modalContent);
-  document.body.appendChild(modal);
 }
 
 document.getElementById("signIn").addEventListener("click", function () {

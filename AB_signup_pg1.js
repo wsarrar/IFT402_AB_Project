@@ -7,17 +7,6 @@ const agreeCheckbox = document.getElementById("agree");
 
 // Add event listener to the "Sign Up" button
 signInButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    const email = signInForm.email.value;
-    const password = signInForm.password.value;
-
-    // Validate the email and password
-    if (email === "user" && password === "web_dev") {
-        alert("You have successfully signed up.");
-        location.reload();
-    } else {
-        signInErrorMsg.style.opacity = 1;
-    }
 
     // Validate the "Terms and Conditions" checkbox
     if (!termsCheckbox.checked) {

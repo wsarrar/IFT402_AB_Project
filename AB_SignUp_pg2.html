@@ -18,52 +18,104 @@
         <img src="AB_business_logo.jpg" width="400" alt="Businesss Logo" class="center"/>
         <h2>Sign Up</h2>
         <div>
-          <h4><label for="fName"> First Name *</label><br /></h4>
-          <input type="text" class="input" name="fName" id="fName" placeholder=""/><br />
-          <span id="fNameErr"></span>
+          <h4><label for="fName">First Name</label><br /></h4>
+          <input 
+          required
+          minlength="2"
+          type="text" class="input" name="fName" id="fName" placeholder=""/><br />
+          <span class="error-icon hidden -ml-6 text-red-700">
+            <i class="fa-solid fa-circle-exclamation"></i>
+          </span>
+          <span class="success-icon hidden -ml-6 text-green-700">
+            <i class="fa-solid fa-circle-check"></i>
+          </span>
         </div>
         
         <div>
       <div>
-          <h4><label for="lName"> Last Name *</label><br /></h4>
-          <input type="text" class="input" name="lName" id="lName" /><br />
-          <span id="lNameErr"></span>
+          <h4><label for="lName">Last Name</label><br /></h4>
+          <input 
+          required
+          minlength="2"
+          type="text" class="input" name="lName" id="lName" /><br />
+          <span class="error-icon hidden -ml-6 text-red-700">
+            <i class="fa-solid fa-circle-exclamation"></i>
+          </span>
+          <span class="success-icon hidden -ml-6 text-green-700">
+            <i class="fa-solid fa-circle-check"></i>
+          </span>
         </div>
         
         <div>
-          <h4><label for="email">Email *</label><br /></h4>
-          <input type="email" class="input" name="email" id="email" /><br />
-          <span id="emailErr"></span>
+          <h4><label for="email">Email</label><br /></h4>
+          <input 
+          required
+          pattern="^(.+)@(.+)$"
+          type="email" class="input" name="email" id="email" /><br />
+          <span class="error-icon hidden -ml-6 text-red-700">
+            <i class="fa-solid fa-circle-exclamation"></i>
+          </span>
+          <span class="success-icon hidden -ml-6 text-green-700">
+            <i class="fa-solid fa-circle-check"></i>
+          </span>
         </div>
   
         <div>
           <h4><label for="bday">Birthday</label><br /></h4>
           <input type="text" class="input" name="bdate" id="bdate" placeholder="MM/DD/YYYY"/><br />
-          <span id="birthdayErr"></span>
+          <span class="error-icon hidden -ml-6 text-red-700">
+            <i class="fa-solid fa-circle-exclamation"></i>
+          </span>
+          <span class="success-icon hidden -ml-6 text-green-700">
+            <i class="fa-solid fa-circle-check"></i>
+          </span>
         </div>
   
         <div>
-          <h4><label for="password">Password *</label><br /></h4>
-          <input type="password" class="input" name="password" id="password"/><br />
-          <span id="passwordErr"></span>
+          <h4><label for="password">Password</label><br /></h4>
+          <input
+          required
+          minlength="12" 
+          type="password" class="input" name="password" id="password"/><br />
+          <span class="error-icon hidden -ml-6 text-red-700">
+            <i class="fa-solid fa-circle-exclamation"></i>
+          </span>
+        <span class="success-icon hidden -ml-6 text-green-700">
+          <i class="fa-solid fa-circle-check"></i>
+        </span>
         </div>
         <div>
-          <h4><label for="confirmPassword">Confirm Password *</label><br /></h4>
-          <input type="password" class="input" name="confirmPassword" id="confirmPassword"/><br />
-          <span id="confirmPasswordErr"></span>
+          <h4><label for="confirmPassword">Confirm Password</label><br /></h4>
+          <input required type="password" class="input" name="confirmPassword" id="confirmPassword"/><br />
+          <span class="error-icon hidden -ml-6 text-red-700">
+            <i class="fa-solid fa-circle-exclamation"></i>
+          </span>
+          <span class="success-icon hidden -ml-6 text-green-700">
+            <i class="fa-solid fa-circle-check"></i>
+          </span>
         </div>
         
         <div>
           <h4><label for="phonenum">Phone Number</label><br /></h4>
           <input type="text" class="input" name="pNum" id="pNum" placeholder="000-000-0000"/><br />
-          <span id="phonenumErr"></span>
+          <span class="error-icon hidden -ml-6 text-red-700">
+            <i class="fa-solid fa-circle-exclamation"></i>
+          </span>
+          <span class="success-icon hidden -ml-6 text-green-700">
+            <i class="fa-solid fa-circle-check"></i>
+          </span>
         </div>      
   
           <input type="submit" class="input" id="submitBtn" />
   
         <div id="popup" style="display: none">
           <div id="data">
-            <span class="close">×</span><br />
+            <span class="error-icon hidden -ml-6 text-red-700">
+            <i class="fa-solid fa-circle-exclamation"></i>
+          </span>
+          <span class="success-icon hidden -ml-6 text-green-700">
+            <i class="fa-solid fa-circle-check"></i>
+          </span><br />
             <p id="popupText"></p>
           </div>
       </div>

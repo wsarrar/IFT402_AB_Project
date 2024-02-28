@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign In</title>
     <link rel="stylesheet" href="AB_signin.css" />
-    <script defer src="AB_singin.js"></script>
   </head>
 
   <body>
@@ -18,11 +17,7 @@
       />
       <h1 id="signIn-header">Sign In</h1>
 
-      <form
-        onsubmit="validate(event)"
-        action="AB_Home_UI2.html"
-        id="signIn-form"
-      >
+      <form onsubmit="validate(event)" action="AB_Home_UI2.html" id="signIn-form">
         <input
           type="text"
           name="email"
@@ -30,6 +25,7 @@
           class="signIn-form-field"
           placeholder="Email"
         />
+        <div id="email_error">Please enter a valid Email</div>
         <input
           type="password"
           name="password"
@@ -37,6 +33,7 @@
           class="signIn-form-field"
           placeholder="Password"
         />
+        <div id="password_error">Please enter a valid Password</div>
 
         <div id="signIn-error-msg-holder">
           <p id="signIn-error-msg">
@@ -57,5 +54,6 @@
         <p>© 2024 AntBarter | Designed with ❤️</p>
       </footer>
     </main>
+    <script src="AB_singin.js"></script>
   </body>
 </html>

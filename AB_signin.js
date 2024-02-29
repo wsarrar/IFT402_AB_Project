@@ -2,32 +2,33 @@ const signInForm = document.getElementById("signIn-form");
 const signInButton = document.getElementById("signIn-form-submit");
 const signInErrorMsg = document.getElementById("signIn-error-msg");
 
-const email = document.forms['form']['email'];
-const email_error = document.getElementById('email_error');
-const password = document.forms['form']['password'];
-const password_error = document.getElementById('password_error');
+var email = document.forms['signIn-form']['email'];
+var email_error = document.getElementById('email_error');
+var password = document.forms['signIn-form']['password'];
+var password_error = document.getElementById('password_error');
 
-email.addEventListener('userInput', emailVerify);
-password.addEventListener('userInput', passwordVerify);
+email.addEventListener('input', emailVerify);
+password.addEventListener('input', passwordVerify);
 
-function signinValid(){
-    if (email.value.length < 11){
+function signinValid() {
+    if (email.value.length < 5) {
         email.style.border = "1px solid red";
         email_error.style.display = "block";
         email.focus();
         return false;
     }
-    if(password.value.length < 12){
+    if (password.value.length < 12) {
         password.style.border = "1px solid red";
         password_error.style.display = "block";
         password.focus();
         return false;
     }
+    return true;
 }
 
 function emailVerify(){
-    if(email.value.length >= 11){
-        email.style.border = "1px solid green";
+    if(email.value.length >= 5){
+        email.style.border = "1px solid silver";
         email_error.style.display = "none";
         return true;
     }
@@ -35,27 +36,30 @@ function emailVerify(){
 
 function passwordVerify(){
     if(password.value.length >= 12){
-        email.style.border = "1px solid green";
+        password.style.border = "1px solid silver";
         password_error.style.display = "none";
         return true;
     }
 }
 
-const forgotPasswordForm = document.getElementById("forgot-password-form");
-const resetPasswordButton = document.getElementById("reset-password-submit");
-
 signInButton.addEventListener("click", (e) => {
     e.preventDefault();
-    const user_email = signInForm.user_email.value;
-    const user_password = signInForm.user_password.value;
+    if (!signinValid()) {
+        return;
+    }
+    const user_email = email.value;
+    const user_password = password.value;
 
-    if (user_email === "user" && user_password === "web_dev") {
+    if (user_email === "email" && user_password === "password") {
         alert("You have successfully logged in.");
-        location.reload();
+        window.location.href = "AB_Home_UI2.html";
     } else {
         signInErrorMsg.style.opacity = 1;
     }
 })
+
+const forgotPasswordForm = document.getElementById("forgot-password-form");
+const resetPasswordButton = document.getElementById("reset-password-submit");
 
 resetPasswordButton.addEventListener("click", (e) => {
     e.preventDefault();

@@ -9,40 +9,22 @@
 
   <body>
     <main id="main-holder">
-      <img
-        src="AB_business_logo.jpg"
-        width="300"
-        alt="Businesss Logo"
-        class="center"
-      />
+      <img src="AB_business_logo.jpg" width="300" alt="Businesss Logo" 
+      class="center"/>
       <h1 id="signIn-header">Sign In</h1>
 
-      <form onsubmit="validate(event)" action="AB_Home_UI2.html" id="signIn-form">
-        <input
-          type="text"
-          name="email"
-          id="email-field"
-          class="signIn-form-field"
-          placeholder="Email"
-        />
-        <div id="email_error">Please enter a valid Email</div>
-        <input
-          type="password"
-          name="password"
-          id="password-field"
-          class="signIn-form-field"
-          placeholder="Password"
-        />
-        <div id="password_error">Please enter a valid Password</div>
+      <form onsubmit="return signinValid()" id="signIn-form">
+        <input type="text" name="email" id="email-field" 
+        class="signIn-form-field" placeholder="Email"/>
+        <div id="email_error" class="error-msg">
+        Please enter a valid Email</div>
+        
+        <input type="password" name="password" id="password-field" 
+        class="signIn-form-field" placeholder="Password">
+        <div id="password_error" class="error-msg">
+        Please enter a valid Password</div>
 
-        <div id="signIn-error-msg-holder">
-          <p id="signIn-error-msg">
-            Invalid email
-            <span id="error-msg-second-line">and/or password</span>
-          </p>
-        </div>
-
-        <input type="submit" value="Sign In" id="signIn-form-submit" />
+        <button type="submit" id="signIn-form-submit" aria-label="Sign In">Sign In</button>
       </form>
       <a href="AB_Forgot_Password.html" id="forgot-password">
         Forgot Password?
@@ -54,6 +36,6 @@
         <p>© 2024 AntBarter | Designed with ❤️</p>
       </footer>
     </main>
-    <script src="AB_singin.js"></script>
+    <script src="AB_signin.js"></script>
   </body>
 </html>

@@ -1,10 +1,10 @@
+// Global variables
 const signInForm = document.getElementById("signIn-form");
-const signInButton = document.getElementById("signIn-form-submit");
 const signInErrorMsg = document.getElementById("signIn-error-msg");
 
-var email = document.forms['signIn-form']['email'];
+var email = document.forms['signIn-form']['email-field'];
 var email_error = document.getElementById('email_error');
-var password = document.forms['signIn-form']['password'];
+var password = document.forms['signIn-form']['password-field'];
 var password_error = document.getElementById('password_error');
 
 email.addEventListener('input', emailVerify);
@@ -42,20 +42,12 @@ function passwordVerify(){
     }
 }
 
-signInButton.addEventListener("click", (e) => {
+signInForm.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!signinValid()) {
         return;
     }
-    const user_email = email.value;
-    const user_password = password.value;
-
-    if (user_email === "email" && user_password === "password") {
-        alert("You have successfully logged in.");
-        window.location.href = "AB_Home_UI2.html";
-    } else {
-        signInErrorMsg.style.opacity = 1;
-    }
+    window.location.href = "AB_Home_UI2.html";
 })
 
 const forgotPasswordForm = document.getElementById("forgot-password-form");

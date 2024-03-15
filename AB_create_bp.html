@@ -3,20 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create Post</title>
+    <title>Create Posting | AntBarter</title>
     <link rel="stylesheet" href="AB_home2.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <script defer src="post_product.js"></script>
   </head>
   <body>
     <header>
-      <div class="hero">
-        <img src="AB_business_logo.jpg" alt="Logo" class="logo" />
-      </div>
+      <h1>AntBarter</h1>
+      <nav>
+        <div>
+          <a href="javascript:void(0);" data-target="home">Home</a>
+          <a href="javascript:void(0);" data-target="about">About</a>
+          <a href="javascript:void(0);" data-target="how-it-works"
+            >How It Works</a
+          >
+          <a href="javascript:void(0);" data-target="contact">Contact</a>
+          <a href="AB_create_bp.html">Create Posting</a>
+          <a href="AB_find_bp.html">Find Posting</a>
+        </div>
+        <div id="userLoggedIn" style="display: flex">
+          <a href="user_profile.html">
+            <i class="fas fa-user"></i>
+          </a>
+          <p id="userName">First Last</p>
+          <a href="messages.html">
+            <i class="fas fa-envelope"></i>
+          </a>
+          <p>Messages</p>
+        </div>
+        <button id="sign-out">Sign Out</button>
+      </nav>
     </header>
+
+    <div class="hero">
+      <img src="AB_business_logo.jpg" alt="Logo" class="logo" />
+    </div>
+
     <main>
-      <h2>Create Your Post</h2>
+      <h2>Create Barter Posting</h2>
       <form id="postForm">
-        <label for="productName">Good or Service Name:</label>
+        <label for="productName">Good or Service:</label>
         <input type="text" id="productName" name="productName" required />
         <label for="productImage">Image:</label>
         <input
@@ -37,11 +67,11 @@ Condition: (New, Used, etc.)
 Value: ($0.00)"
         ></textarea>
 
-        <input type="submit" value="Post Product" />
+        <input type="submit" value="Submit Posting" />
       </form>
     </main>
     <footer>
-      <!-- existing footer here -->
+      <p>&copy; 2024 AntBarter | Designed with ❤️</p>
     </footer>
   </body>
 </html>

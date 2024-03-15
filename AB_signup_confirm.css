@@ -1,14 +1,15 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: grid;
-    justify-items: center;
-    align-items: center;
-    background-color: #8c1a1a;
-  }
+html, body {
+  height: 100%; /* Add this line */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: #8c1a1a;
+}
   
   #confirmation {
-    width: 70%;
+    width: 250%;
     display: grid;
     justify-items: center;
     align-items: center;
@@ -45,4 +46,3 @@ body {
   #confirmation a:hover {
     text-decoration: underline;
   }
-  

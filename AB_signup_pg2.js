@@ -1,5 +1,6 @@
 const validateForm = formSelector => {
   const formElement = document.querySelector(formSelector);
+  let error = 0;
 
   const validationOptions = [
     {
@@ -50,7 +51,8 @@ const validateForm = formSelector => {
         input.classList.remove('border-green-700');
         successIcon.classList.add('hidden');
         errorIcon.classList.remove('hidden');
-        formGroupError = true;
+      formGroupError = true;
+      break;
       }
     }
 
@@ -63,9 +65,9 @@ const validateForm = formSelector => {
     }
   };
 
-  const validateAllFormGroups = formToValidate => {
+  const validateAllFormGroups = () => {
     const formGroups = Array.from(
-      formToValidate.querySelectorAll('.formGroup')
+      formElement.querySelectorAll('.formGroup')
     );
 
     formGroups.forEach(formGroup => {
@@ -86,7 +88,7 @@ const validateForm = formSelector => {
   // Only validate form when submitting
   formElement.addEventListener('submit', event => {
     event.preventDefault();
-    validateAllFormGroups(formElement);
+    validateAllFormGroups();
 
     // Custom validation logic
     const errorContainers = formElement.querySelectorAll('.error');
@@ -98,7 +100,7 @@ const validateForm = formSelector => {
     });
 
     if (error === 0) {
-      // Check if passwords match
+      // Check if passwords match      
       const passwordInput = formElement.querySelector('input[type="password"]');
       const confirmPasswordInput = formElement.querySelector('input[match-password]');
       if (passwordInput.value !== confirmPasswordInput.value) {

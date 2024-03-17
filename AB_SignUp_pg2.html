@@ -86,7 +86,7 @@
         </div>
         <div>
           <h4><label for="confirmPassword">Confirm Password</label><br /></h4>
-          <input required type="password" class="input" name="confirmPassword" id="confirmPassword"/><br />
+          <input required type="password" class="input" name="confirmPassword" id="confirmPassword" match-password="password"/><br />
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
@@ -129,15 +129,20 @@
     <script>
       function sendEmail() {
         Email.send({
+          Host: smtp.elasticemail.com,
           SecureToken: "d3dbe049-207a-408a-8ca2-c994e827b723",
-          To: "wsarrar@asu.edu",
+          To: "email",
           From: document.getElementById("email").value,
-          Subject: "User Registration Completed",
+          Subject: "Thank you for completing your user registration for AntBarter.",
           Body: "First Name: " + document.getElementById("fName").value
             + "<br> Last Name: " + document.getElementById("lName").value
             + "<br> Email: " + document.getElementById("email").value
         }).then(
-          message => alert("Message Sent Successfully"));
+          message => alert("Message Sent Successfully")
+          )
+          .catch(
+            error => console.error("Error sending email: ", error)
+            );
       }
     </script>
   </body>

@@ -1,6 +1,6 @@
 <?php
 
-$host = '35.80.223.57';  
+$host = 'a9b72ee816d64ca751459a1171836a83.c9iwyumu4w7q.us-west-2.rds.amazonaws.com';  
 $dbname = 'newab';
 $username = 'dbmasteruser';
 $password = 'Wasfiothman1';

@@ -74,17 +74,17 @@
   
         <div>
           <h4><label for="password">Password</label><br /></h4>
-          <input
-          required
-          minlength="12" 
-          type="password" class="input" name="password" id="password"/><br />
+          <input required minlength="12" type="password" class="input" name="password" id="password"/><br />
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
-        <span class="success-icon hidden -ml-6 text-green-700">
-          <i class="fa-solid fa-circle-check"></i>
-        </span>
+          <span class="success-icon hidden -ml-6 text-green-700">
+            <i class="fa-solid fa-circle-check"></i>
+          </span>
+          <span class="error-message hidden text-red-700"></span>
+          <span class="success-message hidden text-green-700"></span>
         </div>
+        
         <div>
           <h4><label for="confirmPassword">Confirm Password</label><br /></h4>
           <input required type="password" class="input" name="confirmPassword" id="confirmPassword" match-password="password"/><br />
@@ -94,7 +94,9 @@
           <span class="success-icon hidden -ml-6 text-green-700">
             <i class="fa-solid fa-circle-check"></i>
           </span>
-        </div>
+          <span class="error-message hidden text-red-700"></span>
+          <span class="success-message hidden text-green-700"></span>
+        </div>        
         
         <div>
           <h4><label for="phonenum">Phone Number</label><br /></h4>

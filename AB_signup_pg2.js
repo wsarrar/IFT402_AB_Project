@@ -29,11 +29,26 @@ const validateForm = formSelector => {
       isValid: input => {
         const matchSelector = input.getAttribute('match-password');
         const matchInput = formElement.querySelector(`#${matchSelector}`);
-        return matchInput.value === input.value;
+        const passwordsMatch = matchInput.value === input.value;
+    
+        // Get the error and success icons
+        const errorIcon = document.querySelector('.error-icon');
+        const successIcon = document.querySelector('.success-icon');
+    
+        // Show/hide the icons based on whether the passwords match
+        if (passwordsMatch) {
+          errorIcon.classList.add('hidden');
+          successIcon.classList.remove('hidden');
+        } else {
+          errorIcon.classList.remove('hidden');
+          successIcon.classList.add('hidden');
+        }
+    
+        return passwordsMatch;
       },
       errorMessage: (input, label) =>
         `Passwords do not match`,
-    }
+    }    
   ];
 
   const validateSingleFormGroup = formGroup => {
@@ -105,12 +120,32 @@ const validateForm = formSelector => {
       const confirmPasswordInput = formElement.querySelector('input[match-password]');
       if (passwordInput.value !== confirmPasswordInput.value) {
         const confirmPasswordFormGroup = confirmPasswordInput.parentElement.parentElement;
-        const confirmPasswordErrorContainer = confirmPasswordFormGroup.querySelector('.error');
-        confirmPasswordErrorContainer.textContent = 'Passwords do not match';
+        const confirmPasswordErrorIcon = confirmPasswordFormGroup.querySelector('.error-icon');
+        const confirmPasswordSuccessIcon = confirmPasswordFormGroup.querySelector('.success-icon');
+        const confirmPasswordErrorMessage = confirmPasswordFormGroup.querySelector('.error-message');
+        const confirmPasswordSuccessMessage = confirmPasswordFormGroup.querySelector('.success-message');
+        confirmPasswordErrorMessage.textContent = 'Passwords do not match';
+        confirmPasswordErrorMessage.classList.remove('hidden');
+        confirmPasswordSuccessMessage.classList.add('hidden');
+        confirmPasswordErrorIcon.classList.remove('hidden');
+        confirmPasswordSuccessIcon.classList.add('hidden');
         confirmPasswordInput.classList.add('border-red-700');
         confirmPasswordInput.classList.remove('border-green-700');
         error++;
-      }
+      } else {
+        const confirmPasswordFormGroup = confirmPasswordInput.parentElement.parentElement;
+        const confirmPasswordErrorIcon = confirmPasswordFormGroup.querySelector('.error-icon');
+        const confirmPasswordSuccessIcon = confirmPasswordFormGroup.querySelector('.success-icon');
+        const confirmPasswordErrorMessage = confirmPasswordFormGroup.querySelector('.error-message');
+        const confirmPasswordSuccessMessage = confirmPasswordFormGroup.querySelector('.success-message');
+        confirmPasswordSuccessMessage.textContent = 'Passwords match';
+        confirmPasswordErrorMessage.classList.add('hidden');
+        confirmPasswordSuccessMessage.classList.remove('hidden');
+        confirmPasswordErrorIcon.classList.add('hidden');
+        confirmPasswordSuccessIcon.classList.remove('hidden');
+        confirmPasswordInput.classList.add('border-green-700');
+        confirmPasswordInput.classList.remove('border-red-700');
+      }           
 
       if (error === 0) {
         // Proceed with form submission

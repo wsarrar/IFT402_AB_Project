@@ -15,7 +15,6 @@
         <title>Sign Up</title>
       </h1>
       <form onsubmit="return sendEmail(event)" action="AB_SignUp_pg3.html">
-        <form onsubmit="return sendEmail(event)" action="AB_SIGNUP.php" method="POST">
         <img src="AB_business_logo.jpg" width="400" alt="Businesss Logo" class="center"/>
         <h2>Sign Up</h2>
         <div>
@@ -74,29 +73,29 @@
   
         <div>
           <h4><label for="password">Password</label><br /></h4>
-          <input required minlength="12" type="password" class="input" name="password" id="password"/><br />
+          <input
+          required
+          minlength="12" 
+          type="password" class="input" name="password" id="password"/><br />
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
-          <span class="success-icon hidden -ml-6 text-green-700">
-            <i class="fa-solid fa-circle-check"></i>
-          </span>
-          <span class="error-message hidden text-red-700"></span>
-          <span class="success-message hidden text-green-700"></span>
+        <span class="success-icon hidden -ml-6 text-green-700">
+          <i class="fa-solid fa-circle-check"></i>
+        </span>
         </div>
-        
+
         <div>
           <h4><label for="confirmPassword">Confirm Password</label><br /></h4>
-          <input required type="password" class="input" name="confirmPassword" id="confirmPassword" match-password="password"/><br />
+          <input required type="password" class="input" name="confirmPassword" id="confirmPassword" match-password="password" />
+          <br />
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
           <span class="success-icon hidden -ml-6 text-green-700">
             <i class="fa-solid fa-circle-check"></i>
           </span>
-          <span class="error-message hidden text-red-700"></span>
-          <span class="success-message hidden text-green-700"></span>
-        </div>        
+        </div>
         
         <div>
           <h4><label for="phonenum">Phone Number</label><br /></h4>
@@ -109,7 +108,7 @@
           </span>
         </div>      
   
-          <input type="submit" class="input" id="submitBtn" />
+        <input type="submit" class="input" id="submitBtn" />
   
         <div id="popup" style="display: none">
           <div id="data">

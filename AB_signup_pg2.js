@@ -5,10 +5,8 @@ const validateForm = formSelector => {
   const validationOptions = [
     {
       attribute: 'minlength',
-      isValid: input =>
-        input.value && input.value.length >= parseInt(input.minLength, 10),
-      errorMessage: (input, label) =>
-        `${label.textContent} needs to be at least ${input.minLength} characters`,
+      isValid: input => input.value && input.value.length >= parseInt(input.minLength, 10),
+      errorMessage: (input, label) => `${label.textContent} needs to be at least ${input.minLength} characters`,
     },
     {
       attribute: 'pattern',
@@ -16,8 +14,7 @@ const validateForm = formSelector => {
         const patternRegex = new RegExp(input.pattern);
         return patternRegex.test(input.value);
       },
-      errorMessage: (input, label) =>
-        `${label.textContent} should be a valid email`,
+      errorMessage: (input, label) => `${label.textContent} should be a valid email`,
     },
     {
       attribute: 'required',
@@ -27,29 +24,37 @@ const validateForm = formSelector => {
     {
       attribute: 'match-password',
       isValid: input => {
-        const matchSelector = input.getAttribute('match-password');
-        const matchInput = formElement.querySelector(`#${matchSelector}`);
-        const passwordsMatch = matchInput.value === input.value;
-    
-        // Get the error and success icons
-        const errorIcon = document.querySelector('.error-icon');
-        const successIcon = document.querySelector('.success-icon');
-    
-        // Show/hide the icons based on whether the passwords match
-        if (passwordsMatch) {
-          errorIcon.classList.add('hidden');
-          successIcon.classList.remove('hidden');
-        } else {
-          errorIcon.classList.remove('hidden');
-          successIcon.classList.add('hidden');
-        }
-    
-        return passwordsMatch;
+        const matchPassword = formElement.querySelector(`input[match-password="${input.id}"]`);
+        return matchPassword && matchPassword.value === input.value;
       },
-      errorMessage: (input, label) =>
-        `Passwords do not match`,
-    }    
+      errorMessage: (input, label) => `Passwords do not match`,
+    },
   ];
+
+  // Added function to check the password and confirm-password fields
+  const checkPasswordMatch = () => {
+    const passwordInput = formElement.querySelector('input[type="password"]');
+    const confirmPasswordInput = formElement.querySelector('input[match-password]');
+
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      confirmPasswordInput.classList.add('border-red-700')
+      confirmPasswordInput.classList.remove('border-green-700')
+      return true;
+    } else {
+      confirmPasswordInput.classList.remove('border-red-700')
+      confirmPasswordInput.classList.add('border-green-700')
+      return false;
+    }
+  };
+
+  // Added an event listener that checks the password match before the form is submitted
+  window.addEventListener('beforeunload', (event) => {      
+    if (checkPasswordMatch()) {
+      event.preventDefault();
+      console.log('Preventing form submission due to incorrect passwords.');
+      return 'Do you want to leave the page without submitting the form?';
+    }
+  });
 
   const validateSingleFormGroup = formGroup => {
     const label = formGroup.querySelector('label');
@@ -66,8 +71,14 @@ const validateForm = formSelector => {
         input.classList.remove('border-green-700');
         successIcon.classList.add('hidden');
         errorIcon.classList.remove('hidden');
-      formGroupError = true;
-      break;
+
+        // Check if the error is due to the password match validation
+        if (option.attribute === 'match-password') {
+          input.classList.add('bg-red-100');
+        }
+
+        formGroupError = true;
+        break;
       }
     }
 
@@ -75,15 +86,18 @@ const validateForm = formSelector => {
       errorContainer.textContent = '';
       input.classList.add('border-green-700');
       input.classList.remove('border-red-700');
-      errorIcon.classList.add('hidden');
       successIcon.classList.remove('hidden');
+      errorIcon.classList.add('hidden');
+
+      // If the input is the confirm password, remove the red bg-color
+      if (input.hasAttribute('match-password')) {
+        input.classList.remove('bg-red-100');
+      }
     }
   };
 
   const validateAllFormGroups = () => {
-    const formGroups = Array.from(
-      formElement.querySelectorAll('.formGroup')
-    );
+    const formGroups = Array.from(formElement.querySelectorAll('.formGroup'));
 
     formGroups.forEach(formGroup => {
       validateSingleFormGroup(formGroup);
@@ -96,6 +110,19 @@ const validateForm = formSelector => {
   // Enable validation for each control whilst updating form
   Array.from(formElement.elements).forEach(element =>
     element.addEventListener('blur', event => {
+      if (['password', 'confirm-password'].includes(event.srcElement.id)) {
+        const passwordInput = formElement.querySelector('input[type="password"]');
+        const confirmPasswordInput = formElement.querySelector('input[match-password]');
+  
+        if (passwordInput.value !== confirmPasswordInput.value) {
+          const confirmPasswordFormGroup = confirmPasswordInput.parentElement.parentElement;
+          const confirmPasswordErrorContainer = confirmPasswordFormGroup.querySelector('.error');
+          confirmPasswordErrorContainer.textContent = 'Passwords do not match';
+          confirmPasswordInput.classList.add('border-red-700');
+          confirmPasswordInput.classList.remove('border-green-700');
+        }
+      }
+  
       validateSingleFormGroup(event.srcElement.parentElement.parentElement);
     })
   );
@@ -120,32 +147,12 @@ const validateForm = formSelector => {
       const confirmPasswordInput = formElement.querySelector('input[match-password]');
       if (passwordInput.value !== confirmPasswordInput.value) {
         const confirmPasswordFormGroup = confirmPasswordInput.parentElement.parentElement;
-        const confirmPasswordErrorIcon = confirmPasswordFormGroup.querySelector('.error-icon');
-        const confirmPasswordSuccessIcon = confirmPasswordFormGroup.querySelector('.success-icon');
-        const confirmPasswordErrorMessage = confirmPasswordFormGroup.querySelector('.error-message');
-        const confirmPasswordSuccessMessage = confirmPasswordFormGroup.querySelector('.success-message');
-        confirmPasswordErrorMessage.textContent = 'Passwords do not match';
-        confirmPasswordErrorMessage.classList.remove('hidden');
-        confirmPasswordSuccessMessage.classList.add('hidden');
-        confirmPasswordErrorIcon.classList.remove('hidden');
-        confirmPasswordSuccessIcon.classList.add('hidden');
+        const confirmPasswordErrorContainer = confirmPasswordFormGroup.querySelector('.error');
+        confirmPasswordErrorContainer.textContent = 'Passwords do not match';
         confirmPasswordInput.classList.add('border-red-700');
         confirmPasswordInput.classList.remove('border-green-700');
         error++;
-      } else {
-        const confirmPasswordFormGroup = confirmPasswordInput.parentElement.parentElement;
-        const confirmPasswordErrorIcon = confirmPasswordFormGroup.querySelector('.error-icon');
-        const confirmPasswordSuccessIcon = confirmPasswordFormGroup.querySelector('.success-icon');
-        const confirmPasswordErrorMessage = confirmPasswordFormGroup.querySelector('.error-message');
-        const confirmPasswordSuccessMessage = confirmPasswordFormGroup.querySelector('.success-message');
-        confirmPasswordSuccessMessage.textContent = 'Passwords match';
-        confirmPasswordErrorMessage.classList.add('hidden');
-        confirmPasswordSuccessMessage.classList.remove('hidden');
-        confirmPasswordErrorIcon.classList.add('hidden');
-        confirmPasswordSuccessIcon.classList.remove('hidden');
-        confirmPasswordInput.classList.add('border-green-700');
-        confirmPasswordInput.classList.remove('border-red-700');
-      }           
+      }
 
       if (error === 0) {
         // Proceed with form submission

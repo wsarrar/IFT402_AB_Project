@@ -1,5 +1,4 @@
 const validateForm = (formSelector) => {
-  const formSelector = '.form-group';
   const formElement = document.querySelector(formSelector);
   let error = 0;
 
@@ -45,7 +44,7 @@ const validateForm = (formSelector) => {
     const passwordInput = formElement.querySelector('input[type="password"]');
     const confirmPasswordInput = formElement.querySelector('#confirmPassword');
     const confirmPasswordFormGroup = confirmPasswordInput.parentElement.parentElement;
-    const confirmPasswordErrorContainer = confirmPasswordFormGroup.querySelector('.error');
+    const confirmPasswordErrorContainer = confirmPasswordFormGroup.querySelector('#confirm-password-error');
     const confirmPasswordSuccess = document.querySelector(".confirm-password-success");
   
     confirmPasswordInput.addEventListener('input', event => {
@@ -155,8 +154,6 @@ document.getElementById("confirmPassword").addEventListener("input", checkPasswo
     }
   };
 
-  checkPasswordMatch(formElement);
-
   const validateAllFormGroups = () => {
     const formGroups = Array.from(formElement.querySelectorAll('.formGroup'));
     formGroups.forEach(formGroup => {
@@ -217,13 +214,15 @@ document.getElementById("confirmPassword").addEventListener("input", checkPasswo
     event.preventDefault();
     validateAllFormGroups();
 
-    // Custom validation logic
-    const errorContainers = formElement.querySelectorAll('.error');
-    let error = 0;
-    errorContainers.forEach(container => {
-      if (container.textContent.trim() !== '') {
-        error++;
-      }
+    // Only validate form when submitting
+  formElement.addEventListener('submit', event => {
+    event.preventDefault();
+    validateAllFormGroups();
+
+    // If form is valid, submit the form by redirecting to the next page
+    if (error === 0) {
+      window.location.href = 'AB_SignUp_pg3.html';
+    }
     });
 
     if (error === 0) {
@@ -269,6 +268,9 @@ document.getElementById("confirmPassword").addEventListener("input", checkPasswo
     }
   });
 };
+
+// Call the checkPasswordMatch function with the form element
+checkPasswordMatch(formElement);
 
 // Call validateForm function with the form selector
 validateForm('#registrationForm', document.querySelector(formSelector));

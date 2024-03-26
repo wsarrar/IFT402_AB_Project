@@ -15,7 +15,7 @@
       <h1>
         <title>Sign Up</title>
       </h1>
-      <form onsubmit="return sendEmail(event)" action="AB_SignUp_pg3.html" method="post" novalidate>
+      <form onsubmit="return sendEmail(event)" action="AB_SignUp_pg3.html">
         <img src="AB_business_logo.jpg" width="400" alt="Businesss Logo" class="center"/>
         <h2>Sign Up</h2>
         <div>
@@ -89,9 +89,6 @@
           <h4><label for="confirmPassword">Confirm Password</label><br /></h4>
           <input required type="password" class="input" name="confirmPassword" id="confirmPassword" data-validation="confirm-password" 
           oninput="checkPasswordMatch(this.form)" /> <br />
-          <span class="error-icon opacity-0 pointer-events-none -ml-6 text-red-700 mt-2 hidden">
-              Passwords do not match!
-          </span>
           <span class="confirm-password-error opacity-0 pointer-events-none -ml-6 text-red-700 mt-2 hidden" id="confirm-password-error">
             Passwords do not match!
           </span>
@@ -99,6 +96,7 @@
             Passwords are matching
           </span>
         </div>
+        
         
         <div>
           <h4><label for="phonenum">Phone Number</label><br /></h4>

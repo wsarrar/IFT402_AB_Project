@@ -20,8 +20,6 @@ navLinks.forEach(function (link) {
   });
 });
 
-// Add this code when a user logs in
-// This is just an example. You'll need to replace 'First Last' with the actual user's name.
 var userName = 'First Last';
 
 // Get the #userLoggedIn div and the #userName paragraph

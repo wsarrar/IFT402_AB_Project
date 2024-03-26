@@ -78,6 +78,7 @@ body {
   background-color: #8c1a1a;
 }
 
+/* To support Sign Up Pg1 */
 form {
   margin: 4rem;
   padding: 4rem;
@@ -180,7 +181,6 @@ select:focus{
   }
 }
 
-/* To support Sign Up Pg2 */
 #terms {
   padding: 0.5rem;
   width: 100%; /* Adjust this value to change the width of the textarea */
@@ -197,6 +197,60 @@ select:focus{
 
 label {
   font-size: 18px;
+}
+
+/* To support Sign Up Pg2 */
+.confirm-password-error {
+  color: #d00000;
+  font-size: 14px;
+  margin-left: 0px;
+}
+
+.confirm-password-error,
+.error-icon {
+  display: none;
+}
+
+.confirm-password-success {
+  color: #008000;
+  font-size: 14px;
+  margin-left: 0px;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.error-icon.hidden {
+  display: none;
+}
+
+.confirm-password-error.hidden {
+  display: none;
+}
+
+.success-icon.opacity-0 {
+  opacity: 0;
+}
+
+.success-icon.opacity-100 {
+  opacity: 1;
+}
+
+.no-match-message {
+  display: none;
+}
+
+.match-message {
+  display: none;
+}
+
+.no-match-message.show {
+  display: block;
+}
+
+.match-message.show {
+  display: block;
 }
 
 /* To support confirmation page*/

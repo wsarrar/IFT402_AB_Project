@@ -1,4 +1,5 @@
-const validateForm = formSelector => {
+const validateForm = (formSelector) => {
+  const formSelector = '.form-group';
   const formElement = document.querySelector(formSelector);
   let error = 0;
 
@@ -29,39 +30,96 @@ const validateForm = formSelector => {
       },
       errorMessage: (input, label) => `Passwords do not match`,
     },
+    {
+      attribute: 'confirm-password',
+      isValid: (input, formElement) => {
+        const passwordInput = formElement.querySelector('input[type="password"]');
+        return passwordInput && input.value === passwordInput.value;
+      },
+      errorMessage: (input, label) => `Passwords do not match`,
+    },
   ];
-
-  // Added function to check the password and confirm-password fields
-  const checkPasswordMatch = () => {
+  
+  // Function to check the password and confirm-password fields
+  const checkPasswordMatch = (formElement) => {
     const passwordInput = formElement.querySelector('input[type="password"]');
-    const confirmPasswordInput = formElement.querySelector('input[match-password]');
-
-    if (passwordInput.value !== confirmPasswordInput.value) {
-      confirmPasswordInput.classList.add('border-red-700')
-      confirmPasswordInput.classList.remove('border-green-700')
-      return true;
+    const confirmPasswordInput = formElement.querySelector('#confirmPassword');
+    const confirmPasswordFormGroup = confirmPasswordInput.parentElement.parentElement;
+    const confirmPasswordErrorContainer = confirmPasswordFormGroup.querySelector('.error');
+    const confirmPasswordSuccess = document.querySelector(".confirm-password-success");
+  
+    confirmPasswordInput.addEventListener('input', event => {
+      if (passwordInput.value && confirmPasswordInput.value) {
+        if (passwordInput.value === confirmPasswordInput.value) {
+          confirmPasswordErrorContainer.classList.add('hidden');
+          confirmPasswordInput.classList.remove("border-red-700");
+          confirmPasswordInput.classList.add("border-green-700");
+          confirmPasswordSuccess.classList.remove('hidden');
+          confirmPasswordSuccess.textContent = "Passwords are matching";
+          confirmPasswordSuccess.classList.add("opacity-100", "pointer-events-auto");
+          event.target.setCustomValidity("");
+      } else {
+        confirmPasswordErrorContainer.classList.remove('hidden');
+        confirmPasswordInput.classList.add("border-red-700");
+        confirmPasswordInput.classList.remove("border-green-700");
+        confirmPasswordSuccess.classList.add('hidden');
+        confirmPasswordSuccess.textContent = "";
+        confirmPasswordSuccess.classList.remove("opacity-100", "pointer-events-auto");
+        event.target.setCustomValidity("Passwords do not match");
+      }
     } else {
-      confirmPasswordInput.classList.remove('border-red-700')
-      confirmPasswordInput.classList.add('border-green-700')
-      return false;
-    }
-  };
-
-  // Added an event listener that checks the password match before the form is submitted
-  window.addEventListener('beforeunload', (event) => {      
-    if (checkPasswordMatch()) {
-      event.preventDefault();
-      console.log('Preventing form submission due to incorrect passwords.');
-      return 'Do you want to leave the page without submitting the form?';
+      confirmPasswordErrorContainer.classList.add('hidden');
+      confirmPasswordInput.classList.remove("border-red-700");
+      confirmPasswordInput.classList.remove("border-green-700");
+      confirmPasswordSuccess.classList.add('hidden');
+      confirmPasswordSuccess.textContent = "";
+      confirmPasswordSuccess.classList.remove("opacity-100", "pointer-events-auto");
+      event.target.setCustomValidity("");
     }
   });
+};
 
-  const validateSingleFormGroup = formGroup => {
+document.getElementById("password").addEventListener("input", checkPasswordMatch);
+document.getElementById("confirmPassword").addEventListener("input", checkPasswordMatch);
+
+  // Added an event listener that checks the password match before the form is submitted
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add a submit event listener to the form
+    document.querySelector("form").addEventListener("submit", function (event) {
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+      const confirmPasswordError = document.querySelector('.confirm-password-error');
+      const confirmPasswordSuccess = document.querySelector('.confirm-password-success');
+
+      // If the passwords don't match, show the error message and prevent form submission
+      if (passwordInput.value !== confirmPasswordInput.value) {
+        confirmPasswordError.classList.remove("hidden");
+        confirmPasswordError.classList.add("opacity-100", "pointer-events-auto");
+        confirmPasswordSuccess.classList.remove("opacity-100", "pointer-events-auto");
+        confirmPasswordSuccess.classList.add("hidden");
+        event.preventDefault();
+      }
+      // If the passwords match, clear the error message and allow form submission 
+      else {
+        confirmPasswordError.classList.remove("opacity-100", "pointer-events-auto");
+        confirmPasswordError.classList.add("hidden");
+        confirmPasswordSuccess.classList.remove("hidden");
+        confirmPasswordSuccess.classList.add("opacity-100", "pointer-events-auto");
+      }
+    });
+  });
+
+  const validateSingleFormGroup = (formGroup, formElement) => {
     const label = formGroup.querySelector('label');
     const input = formGroup.querySelector('input, textarea');
     const errorContainer = formGroup.querySelector('.error');
     const errorIcon = formGroup.querySelector('.error-icon');
     const successIcon = formGroup.querySelector('.success-icon');
+    
+    // Check if the password match validation is needed
+    if (input.hasAttribute('match-password') || input.hasAttribute('confirm-password')) {
+      checkPasswordMatch(formElement);
+    }
 
     let formGroupError = false;
     for (const option of validationOptions) {
@@ -73,7 +131,7 @@ const validateForm = formSelector => {
         errorIcon.classList.remove('hidden');
 
         // Check if the error is due to the password match validation
-        if (option.attribute === 'match-password') {
+        if (input.hasAttribute('match-password')) {
           input.classList.add('bg-red-100');
         }
 
@@ -90,19 +148,21 @@ const validateForm = formSelector => {
       errorIcon.classList.add('hidden');
 
       // If the input is the confirm password, remove the red bg-color
-      if (input.hasAttribute('match-password')) {
-        input.classList.remove('bg-red-100');
+      if (input.hasAttribute('confirm-password')){
+        input.classList.add('border-green-700');
+        input.classList.remove('bg-red-100', 'bg-green-100');
       }
     }
   };
 
+  checkPasswordMatch(formElement);
+
   const validateAllFormGroups = () => {
     const formGroups = Array.from(formElement.querySelectorAll('.formGroup'));
-
     formGroups.forEach(formGroup => {
-      validateSingleFormGroup(formGroup);
+      validateSingleFormGroup(formGroup, formElement);
     });
-  };
+  }
 
   // Disable HTML5 Validation
   formElement.setAttribute('novalidate', '');
@@ -126,6 +186,31 @@ const validateForm = formSelector => {
       validateSingleFormGroup(event.srcElement.parentElement.parentElement);
     })
   );
+
+  const eventListeners = () => {
+    const formElement = document.querySelector(formSelector);
+  
+    // Add the input event listener for both password and confirm password fields
+    formElement.addEventListener('input', (event) => {
+      if (event.target.type === 'password' || event.target.id === 'confirmPassword') {
+        validateSingleFormGroup(event.target.parentElement.parentElement);
+      }
+    });
+  
+    // Add the rest of the existing event listeners
+    formElement.addEventListener('submit', validateOnSubmit);
+    formElement.querySelector('input[type="submit"]').addEventListener('click', (event) => event.stopPropagation());
+    Array.from(formElement.elements).forEach(element => {
+      element.addEventListener('blur', validateBlur);
+      if (element.type !== 'submit') {
+        element.addEventListener('input', validateOnInput);
+      }
+    });
+  
+    // Add the check validation after the form is rendered
+    setTimeout(validateAllFormGroups, 100);
+  };
+  eventListeners();
 
   // Only validate form when submitting
   formElement.addEventListener('submit', event => {
@@ -186,4 +271,4 @@ const validateForm = formSelector => {
 };
 
 // Call validateForm function with the form selector
-validateForm('#registrationForm');
+validateForm('#registrationForm', document.querySelector(formSelector));

@@ -1,11 +1,52 @@
-document.getElementById('postForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent the default form submission
-    const formData = new FormData(event.target);
-    const productName = formData.get('productName');
-    const description = formData.get('description');
+const form = document.querySelector('form');
 
-    // You can add any additional validation or processing here
+if (form) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-    // Redirect to the confirmation page
-    window.location.href = 'AB_create_bp_confirm.html';
+    // Disable form submission button to prevent multiple submissions
+    const submitButton = form.querySelector('[type="submit"]');
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
+
+    // Get form data
+    const formData = new FormData(form);
+
+    // Send form data to server
+    fetch('https://example.com/submit-posting', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      // Enable form submission button
+      if (submitButton) {
+        submitButton.disabled = false;
+      }
+
+      // Handle response
+      if (!response.ok) {
+        throw new Error('Error submitting form');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Handle successful response
+      console.log(data);
+      // Redirect to confirmation page or show success message
+      alert('Submission successful!');
+      form.reset();
+    })
+    .catch(error => {
+      // Enable form submission button
+      if (submitButton) {
+        submitButton.disabled = false;
+      }
+
+      // Handle error
+      console.error(error);
+      // Show error message
+      alert('Submission failed. Please try again later.');
+    });
   });
+}

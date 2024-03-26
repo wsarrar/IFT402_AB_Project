@@ -8,13 +8,14 @@
       href="<https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200&display=swap>"
       rel="stylesheet"
     />
+    <script src="AB_signup_pg2.js"></script>
   </head>
   <body>
     <main id="main-holder">
       <h1>
         <title>Sign Up</title>
       </h1>
-      <form onsubmit="return sendEmail(event)" action="AB_SignUp_pg3.html">
+      <form onsubmit="return sendEmail(event)" action="AB_SignUp_pg3.html" method="post" novalidate>
         <img src="AB_business_logo.jpg" width="400" alt="Businesss Logo" class="center"/>
         <h2>Sign Up</h2>
         <div>
@@ -48,10 +49,7 @@
         
         <div>
           <h4><label for="email">Email</label><br /></h4>
-          <input 
-          required
-          pattern="^(.+)@(.+)$"
-          type="email" class="input" name="email" id="email" /><br />
+          <input required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="email" class="input" name="email" id="email" />
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
@@ -62,7 +60,9 @@
   
         <div>
           <h4><label for="bday">Birthday</label><br /></h4>
-          <input type="text" class="input" name="bdate" id="bdate" placeholder="MM/DD/YYYY"/><br />
+          <input type="text" class="input" name="bdate" 
+          id="bdate" required placeholder="MM/DD/YYYY" 
+          pattern="(0[1-9]|1[012])[- /.](0[1-9]|1[0-9]|2[0-9]|3[01])[- /.](19|20)\d\d">
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
@@ -76,7 +76,7 @@
           <input
           required
           minlength="12" 
-          type="password" class="input" name="password" id="password"/><br />
+          type="password" class="input" name="password" id="password" data-validation="match-password"/><br />
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
@@ -87,19 +87,22 @@
 
         <div>
           <h4><label for="confirmPassword">Confirm Password</label><br /></h4>
-          <input required type="password" class="input" name="confirmPassword" id="confirmPassword" match-password="password" />
-          <br />
-          <span class="error-icon hidden -ml-6 text-red-700">
-            <i class="fa-solid fa-circle-exclamation"></i>
+          <input required type="password" class="input" name="confirmPassword" id="confirmPassword" data-validation="confirm-password" 
+          oninput="checkPasswordMatch(this.form)" /> <br />
+          <span class="error-icon opacity-0 pointer-events-none -ml-6 text-red-700 mt-2 hidden">
+              Passwords do not match!
           </span>
-          <span class="success-icon hidden -ml-6 text-green-700">
-            <i class="fa-solid fa-circle-check"></i>
+          <span class="confirm-password-error opacity-0 pointer-events-none -ml-6 text-red-700 mt-2 hidden" id="confirm-password-error">
+            Passwords do not match!
+          </span>
+          <span class="success-icon opacity-0 pointer-events-none -ml-6 text-green-700 mt-2" id="confirm-password-success">
+            Passwords are matching
           </span>
         </div>
         
         <div>
           <h4><label for="phonenum">Phone Number</label><br /></h4>
-          <input type="text" class="input" name="pNum" id="pNum" placeholder="000-000-0000"/><br />
+          <input type="text" class="input" name="pNum" id="pNum" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required placeholder="000-000-0000" />
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
@@ -121,7 +124,6 @@
             <p id="popupText"></p>
           </div>
       </div>
-      <script src="AB_signup_pg2.js"></script>
       </form>
     <footer>
       <p>© 2024 AntBarter | Designed with ❤️</p>

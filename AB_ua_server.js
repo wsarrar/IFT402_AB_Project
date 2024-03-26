@@ -94,7 +94,7 @@ app.post('/SignUp', checkNotAuthenticated, async (req, res) => {
     });
 
     res.redirect('/SignIn');
-  } catch {
+  } catch (err) {
     res.redirect('/SignUp');
   }
 });
@@ -106,7 +106,7 @@ app.post('/SignIn', checkNotAuthenticated, passport.authenticate('local', {
   failureFlash: true,
 }));
 
-// Logout route
+// Implement Signout route using logout
 app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/SignIn');

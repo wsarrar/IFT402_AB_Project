@@ -1,14 +1,29 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
+const passport = require('passport');
+const flash = require('express-flash');
+const session = require('express-session');
+const methodOverride = require('method-override');
+const path = require('path');
+const mysql = require('mysql');
 
-const express = require('express')
-const app = express()
-const bcrypt = require('bcrypt')
-const passport = require('passport')
-const flash = require('express-flash')
-const session = require('express-session')
-const methodOverride = require('method-override')
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
+});
+
+db.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database', err);
+    process.exit(1);
+  }
+  console.log('Connected to the database');
+});
 
 const initializePassport = require('./AB_signin_passport-config')
 initializePassport(
@@ -21,12 +36,14 @@ const users = []
 
 app.set('view-engine', 'js')
 app.use(express.urlencoded({ extended: false }))
+
 app.use(flash())
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }))
+
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
@@ -60,7 +77,8 @@ app.post('/signup', checkNotAuthenticated, async (req, res) => {
     })
     res.redirect('/login')
   } catch {
-    res.redirect('/signup')
+    console.error('Error signing up', err);
+    res.status(500).redirect('/signup');
   }
 })
 
@@ -84,4 +102,4 @@ function checkNotAuthenticated(req, res, next) {
   next()
 }
 
-app.listen(3000)
+app.listen(5500)

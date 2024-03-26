@@ -213,3 +213,8 @@ textarea {
   .hide {
     display: none;
   }
+
+  #description {
+    max-width: 1200px;
+    margin: 0;
+  }

@@ -40,17 +40,17 @@ nav div {
   gap: 15px;
 }
 
-nav a, button {
+.input.submit-btn {
   margin: 0 10px;
-  text-decoration: none;
-  color: #fff;
   padding: 10px 15px;
   border-radius: 5px;
+  background-color: #8c1a1a; /* Change the color to red */
+  color: white; /* Change the text color to white */
   transition: background-color 0.3s;
 }
 
-nav a:hover, button:hover {
-  background-color: #555;
+.input.submit-btn:hover {
+  background-color: #a72e2e;
 }
 
 *{
@@ -207,14 +207,28 @@ label {
 }
 
 .confirm-password-error,
-.error-icon {
-  display: none;
+.confirm-password-success {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .confirm-password-success {
   color: #008000;
   font-size: 14px;
   margin-left: 0px;
+}
+
+.confirm-password-error.hidden {
+  display: none;
+}
+
+.confirm-password-success.hidden {
+  display: none;
+}
+
+.confirm-password-error.opacity-100,
+.confirm-password-success.opacity-100 {
+  opacity: 1;
 }
 
 .pointer-events-none {

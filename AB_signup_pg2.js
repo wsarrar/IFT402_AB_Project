@@ -1,5 +1,61 @@
+// Function to check if passwords match
+const checkPasswordMatch = (formElement) => {
+  const passwordInput = formElement.querySelector('#password');
+  const confirmPasswordInput = formElement.querySelector('#confirmPassword');
+  const confirmPasswordError = formElement.querySelector('.confirm-password-error');
+  const confirmPasswordSuccess = formElement.querySelector('.confirm-password-success');
+
+  if (passwordInput.value !== confirmPasswordInput.value) {
+    confirmPasswordError.classList.remove('hidden');
+    confirmPasswordError.classList.add('opacity-100');
+    confirmPasswordSuccess.classList.remove('opacity-100');
+    confirmPasswordSuccess.classList.add('hidden');
+  } else {
+    confirmPasswordError.classList.remove('opacity-100');
+    confirmPasswordError.classList.add('hidden');
+    confirmPasswordSuccess.classList.remove('hidden');
+    confirmPasswordSuccess.classList.add('opacity-100');
+  }
+};
+
+// Add event listeners for input and blur events on password and confirm password fields
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form[name='user_sign_up']");
+  const confirmPasswordInput = form.querySelector('#confirmPassword');
+  confirmPasswordInput.addEventListener("input", () => checkPasswordMatch(form));
+  confirmPasswordInput.addEventListener("blur", () => checkPasswordMatch(form));
+});
+
+  // Added an event listener that checks the password match before the form is submitted
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add a submit event listener to the form
+    const form = document.querySelector("form[name='user_sign_up']");
+    form.addEventListener("submit", function (event) {
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+      const confirmPasswordError = document.querySelector('.confirm-password-error');
+      const confirmPasswordSuccess = document.querySelector('.confirm-password-success');
+  
+      // If the passwords don't match, show the error message and prevent form submission
+      if (passwordInput.value !== confirmPasswordInput.value) {
+        confirmPasswordError.classList.remove("hidden");
+        confirmPasswordError.classList.add("opacity-100", "pointer-events-auto");
+        confirmPasswordSuccess.classList.remove("opacity-100", "pointer-events-auto");
+        confirmPasswordSuccess.classList.add("hidden");
+        event.preventDefault();
+      }
+      // If the passwords match, clear the error message and allow form submission
+      else {
+        confirmPasswordError.classList.remove("opacity-100", "pointer-events-auto");
+        confirmPasswordError.classList.add("hidden");
+        confirmPasswordSuccess.classList.remove("hidden");
+        confirmPasswordSuccess.classList.add("opacity-100", "pointer-events-auto");
+      }
+    });
+  });
+
 const validateForm = (formSelector) => {
-  const formElement = document.querySelector(formSelector);
+  const formElement = document.getElementById(formSelector);
   let error = 0;
 
   const validationOptions = [
@@ -38,75 +94,11 @@ const validateForm = (formSelector) => {
       errorMessage: (input, label) => `Passwords do not match`,
     },
   ];
-  
-  // Function to check the password and confirm-password fields
-  const checkPasswordMatch = (formElement) => {
-    const passwordInput = formElement.querySelector('input[type="password"]');
-    const confirmPasswordInput = formElement.querySelector('#confirmPassword');
-    const confirmPasswordFormGroup = confirmPasswordInput.parentElement.parentElement;
-    const confirmPasswordErrorContainer = confirmPasswordFormGroup.querySelector('#confirm-password-error');
-    const confirmPasswordSuccess = document.querySelector(".confirm-password-success");
-  
-    confirmPasswordInput.addEventListener('input', event => {
-      if (passwordInput.value && confirmPasswordInput.value) {
-        if (passwordInput.value === confirmPasswordInput.value) {
-          confirmPasswordErrorContainer.classList.add('hidden');
-          confirmPasswordInput.classList.remove("border-red-700");
-          confirmPasswordInput.classList.add("border-green-700");
-          confirmPasswordSuccess.classList.remove('hidden');
-          confirmPasswordSuccess.textContent = "Passwords are matching";
-          confirmPasswordSuccess.classList.add("opacity-100", "pointer-events-auto");
-          event.target.setCustomValidity("");
-      } else {
-        confirmPasswordErrorContainer.classList.remove('hidden');
-        confirmPasswordInput.classList.add("border-red-700");
-        confirmPasswordInput.classList.remove("border-green-700");
-        confirmPasswordSuccess.classList.add('hidden');
-        confirmPasswordSuccess.textContent = "";
-        confirmPasswordSuccess.classList.remove("opacity-100", "pointer-events-auto");
-        event.target.setCustomValidity("Passwords do not match");
-      }
-    } else {
-      confirmPasswordErrorContainer.classList.add('hidden');
-      confirmPasswordInput.classList.remove("border-red-700");
-      confirmPasswordInput.classList.remove("border-green-700");
-      confirmPasswordSuccess.classList.add('hidden');
-      confirmPasswordSuccess.textContent = "";
-      confirmPasswordSuccess.classList.remove("opacity-100", "pointer-events-auto");
-      event.target.setCustomValidity("");
-    }
-  });
-};
 
 document.getElementById("password").addEventListener("input", checkPasswordMatch);
-document.getElementById("confirmPassword").addEventListener("input", checkPasswordMatch);
+document.getElementById("confirmPassword").addEventListener("blur", checkPasswordMatch);
 
-  // Added an event listener that checks the password match before the form is submitted
-  document.addEventListener("DOMContentLoaded", function () {
-    // Add a submit event listener to the form
-    document.querySelector("form").addEventListener("submit", function (event) {
-      const passwordInput = document.getElementById("password");
-      const confirmPasswordInput = document.getElementById("confirmPassword");
-      const confirmPasswordError = document.querySelector('.confirm-password-error');
-      const confirmPasswordSuccess = document.querySelector('.confirm-password-success');
-
-      // If the passwords don't match, show the error message and prevent form submission
-      if (passwordInput.value !== confirmPasswordInput.value) {
-        confirmPasswordError.classList.remove("hidden");
-        confirmPasswordError.classList.add("opacity-100", "pointer-events-auto");
-        confirmPasswordSuccess.classList.remove("opacity-100", "pointer-events-auto");
-        confirmPasswordSuccess.classList.add("hidden");
-        event.preventDefault();
-      }
-      // If the passwords match, clear the error message and allow form submission 
-      else {
-        confirmPasswordError.classList.remove("opacity-100", "pointer-events-auto");
-        confirmPasswordError.classList.add("hidden");
-        confirmPasswordSuccess.classList.remove("hidden");
-        confirmPasswordSuccess.classList.add("opacity-100", "pointer-events-auto");
-      }
-    });
-  });
+  // Call the checkPasswordMatch function with the form elementcheckPasswordMatch(formElement);
 
   const validateSingleFormGroup = (formGroup, formElement) => {
     const label = formGroup.querySelector('label');
@@ -214,17 +206,6 @@ document.getElementById("confirmPassword").addEventListener("input", checkPasswo
     event.preventDefault();
     validateAllFormGroups();
 
-    // Only validate form when submitting
-  formElement.addEventListener('submit', event => {
-    event.preventDefault();
-    validateAllFormGroups();
-
-    // If form is valid, submit the form by redirecting to the next page
-    if (error === 0) {
-      window.location.href = 'AB_SignUp_pg3.html';
-    }
-    });
-
     if (error === 0) {
       // Check if passwords match      
       const passwordInput = formElement.querySelector('input[type="password"]');
@@ -269,8 +250,5 @@ document.getElementById("confirmPassword").addEventListener("input", checkPasswo
   });
 };
 
-// Call the checkPasswordMatch function with the form element
-checkPasswordMatch(formElement);
-
 // Call validateForm function with the form selector
-validateForm('#registrationForm', document.querySelector(formSelector));
+validateForm('#user_sign_up', document.querySelector(formSelector));

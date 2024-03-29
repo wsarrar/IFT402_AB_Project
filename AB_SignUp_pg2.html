@@ -15,7 +15,7 @@
       <h1>
         <title>Sign Up</title>
       </h1>
-      <form onsubmit="return sendEmail(event)" action="AB_SignUp_pg3.html">
+      <form name="user_sign_up" onsubmit="return sendEmail(event)" action="AB_SignUp_pg3.html">
         <img src="AB_business_logo.jpg" width="400" alt="Businesss Logo" class="center"/>
         <h2>Sign Up</h2>
         <div>
@@ -74,33 +74,37 @@
         <div>
           <h4><label for="password">Password</label><br /></h4>
           <input
-          required
-          minlength="12" 
-          type="password" class="input" name="password" id="password" data-validation="match-password"/><br />
+            required
+            minlength="12"
+            type="password"
+            class="input"
+            name="password"
+            id="password"
+            data-validation="match-password"
+          /><br />
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
-        <span class="success-icon hidden -ml-6 text-green-700">
-          <i class="fa-solid fa-circle-check"></i>
-        </span>
-        </div>
-
-        <div>
-          <h4><label for="confirmPassword">Confirm Password</label><br /></h4>
-          <input required type="password" class="input" name="confirmPassword" id="confirmPassword" data-validation="confirm-password" 
-          oninput="checkPasswordMatch(this.form)" /> <br />
-          <span class="confirm-password-error opacity-0 pointer-events-none -ml-6 text-red-700 mt-2 hidden" id="confirm-password-error">
-            Passwords do not match!
-          </span>
-          <span class="success-icon opacity-0 pointer-events-none -ml-6 text-green-700 mt-2" id="confirm-password-success">
-            Passwords are matching
+          <span class="success-icon hidden -ml-6 text-green-700">
+            <i class="fa-solid fa-circle-check"></i>
           </span>
         </div>
         
+        <div>
+          <h4><label for="confirmPassword">Confirm Password</label><br /></h4>
+          <input required type="password" class="input" name="confirmPassword" id="confirmPassword" data-validation="confirm-password" /><br />
+          <span class="confirm-password-error opacity-0 pointer-events-none -ml-6 text-red-700 mt-2 hidden" id="confirm-password-error" data-validation="confirm-password">
+            Passwords do not match!
+          </span>
+          <span class="confirm-password-success opacity-0 pointer-events-none -ml-6 text-green-700 mt-2 hidden" id="confirm-password-success">
+            Passwords are matching
+          </span>
+        </div>        
         
         <div>
           <h4><label for="phonenum">Phone Number</label><br /></h4>
-          <input type="text" class="input" name="pNum" id="pNum" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required placeholder="000-000-0000" />
+          <input type="text" class="input" name="pNum" id="pNum" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+          required placeholder="000-000-0000" />
           <span class="error-icon hidden -ml-6 text-red-700">
             <i class="fa-solid fa-circle-exclamation"></i>
           </span>
@@ -109,7 +113,7 @@
           </span>
         </div>      
   
-        <input type="submit" class="input" id="submitBtn" />
+        <input type="submit" class="input submit-btn" id="submitBtn" />
   
         <div id="popup" style="display: none">
           <div id="data">

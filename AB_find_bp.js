@@ -25,3 +25,7 @@ fetch("https://jsonplaceholder.typicode.com/users") // TODO: Replace with a link
       return { name: user.name, website: user.website, element: card }
     })
   })
+
+function redirectToBarterAgreement() {
+  location.href = "AB_barter_agreement.html";
+}

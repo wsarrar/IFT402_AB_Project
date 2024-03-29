@@ -26,7 +26,7 @@
           <a href="AB_find_bp.html">Find Posting</a>
         </div>
         <div id="userLoggedIn" style="display: flex">
-          <a href="user_profile.html">
+          <a href="AB_profile.html">
             <i class="fas fa-user"></i>
           </a>
           <p id="userName">First Last</p>
@@ -49,11 +49,21 @@
         <label for="search">Search for Goods or Services:</label>
         <input type="search" id="search" data-search />
       </div>
-      <div class="user-cards" data-user-cards-container></div>
+      <div
+        class="user-cards"
+        id="user-cards-container"
+        data-user-cards-container
+      ></div>
       <template data-user-template>
         <div class="card">
           <div class="header" data-header></div>
           <div class="body" data-body></div>
+          <button
+            class="start-barter-btn-default"
+            onclick="redirectToBarterAgreement()"
+          >
+            Start Barter Agreement
+          </button>
         </div>
       </template>
     </main>

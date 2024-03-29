@@ -145,6 +145,7 @@ input[type="submit"] {
     padding: 10px 20px;
     border-radius: 5px;
     transition: background-color 0.3s;
+    margin: 20px 0;
 }
 
 input[type="submit"]:hover {
@@ -217,4 +218,65 @@ textarea {
   #description {
     max-width: 1200px;
     margin: 0;
+    height: 250px;
+  }
+
+  .start-barter-btn-default {
+    background-color: #8c1a1a; /* Add some background color to the button */
+    color: #f1f1f1; /* Add some text color to the button */
+    padding: 5px 10px; /* Add some padding to the button for better looks and clickability */
+    border: none; /* Remove the standard border of the button */
+    cursor: pointer; /* Add some nice hover and click effect */
+    transition: background-color 0.3s ease; /* Add some transition effect for better UX */
+  }
+  
+  .start-barter-btn-default:hover {
+    background-color: #a72e2e; /* Add some hover effect to the button */
+  }
+
+/* Barter Agreement Styling */
+#barterForm {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  .radio-option input[type="radio"] {
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .radio-option label {
+    font-weight: bold;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  /* Button styling */
+  button[type="button"]#safePdfButton {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #a72e2e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button[type="button"]#safePdfButton:hover {
+    background-color: #000;
   }

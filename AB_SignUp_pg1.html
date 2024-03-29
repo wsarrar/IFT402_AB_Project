@@ -56,12 +56,18 @@ We may update these Terms from time to time. If we believe that the changes are 
 For any questions about these Terms, please refer to the Contact page where you can send us a message.            
 </textarea
           >
-          <input type="checkbox" id="agree" name="agree" value="agree" />
+          <input
+            type="checkbox"
+            id="agree"
+            name="agree"
+            value="agree"
+            required
+          />
           <label for="agree"> I agree to the Terms and Conditions</label><br />
           <span id="termsErr"></span>
         </div>
 
-        <input type="submit" class="input" id="submitBtn" />
+        <input type="submit" class="input submit-btn" id="submitBtn" />
 
         <div id="popup" style="display: none">
           <div id="data">
@@ -69,6 +75,9 @@ For any questions about these Terms, please refer to the Contact page where you 
             <p id="popupText"></p>
           </div>
         </div>
+        <footer>
+          <p>© 2024 AntBarter | Designed with ❤️</p>
+        </footer>
         <script src="AB_signup_pg1.js"></script>
       </form>
     </header>

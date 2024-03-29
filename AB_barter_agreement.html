@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start Barter Agreement</title>
+    <link rel="stylesheet" href="AB_home2.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="AB_barter_agreement.css" />
+
+    <!-- Import jspdf library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+
+    <!-- Import html-pdf-node library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+    <!-- Integrate JS Code for Barter Agreement -->
+    <script type="text/javascript" src="AB_barter_agreement_pdf.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>AntBarter</h1>
+      <nav>
+        <div>
+          <a href="javascript:void(0);" data-target="home">Home</a>
+          <a href="javascript:void(0);" data-target="about">About</a>
+          <a href="javascript:void(0);" data-target="how-it-works"
+            >How It Works</a
+          >
+          <a href="javascript:void(0);" data-target="contact">Contact</a>
+          <a href="AB_create_bp.html">Create Posting</a>
+          <a href="AB_find_bp.html">Find Posting</a>
+        </div>
+        <div id="userLoggedIn" style="display: flex">
+          <a href="AB_profile.html">
+            <i class="fas fa-user"></i>
+          </a>
+          <p id="userName">First Last</p>
+          <a href="AB_messages.html">
+            <i class="fas fa-envelope"></i>
+          </a>
+          <p>Messages</p>
+        </div>
+        <button id="sign-out">Sign Out</button>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <img src="AB_business_logo.jpg" alt="Logo" class="logo" />
+    </div>
+  </head>
+  <body>
+    <h2>Barter Agreement</h2>
+    <form id="barterForm">
+      <div class="radio-option">
+        <input type="radio" id="oneTime" name="barterType" value="oneTime">
+        <label for="oneTime">One-Time Transaction</label><br>
+        <input type="radio" id="ongoing" name="barterType" value="ongoing">
+        <label for="ongoing">Ongoing Arrangement</label>
+      </div>
+      
+      <div class="form-group">
+        <label for="partyA">Party A</label>
+        <input type="partyA" id="partyA" name="partyA" required />
+      </div>
+      <div class="form-group">
+        <label for="message">Party A's Offering</label>
+        <textarea id="partyA_offer" name="partyA_offer" required ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="partyA">Party B</label>
+        <input type="partyB" id="partyB" name="partyB" required />
+      </div>
+      <div class="form-group">
+        <label for="message">Party B's Offering</label>
+        <textarea id="partyB_offer" name="partyB_offer" required></textarea>
+      </div>
+      <!-- Add more form groups here for the additional steps in your form -->
+      <div class="form-group">
+        <button type="button" id="safePdfButton" onclick="saveToPdf()">Save PDF</button>
+      </div>
+    </form>
+    <!-- Import jspdf library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+  
+    <!-- Import html-pdf-node library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  
+    <!-- Integrate JS Code for Barter Agreement -->
+    <script type="text/javascript" src="AB_barter_agreement_pdf.js"></script>
+  </body>
+  </html>

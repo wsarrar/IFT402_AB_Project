@@ -4,6 +4,7 @@ strategy for Passport.js.*/
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
+  console.log(process.env.SESSION_SECRET);
 }
 
 const express = require('express');
@@ -28,38 +29,83 @@ const db = createPool({
   queueLimit: 0
 });
 
+// Check database connection
 db.connect()
   .then(() => console.log('Connected to the database'))
   .catch((error) => console.log('Error connecting to the database:', error));
 
-require('dotenv').config()
-console.log(process.env.SESSION_SECRET)
-
-const initializePassport = require('./passport-config');
+// Initialize Passport
 initializePassport(passport,
-  email => users.find(user => user.email === email),
-  id => users.find(user => user.id === id)
+  async email => {
+    try {
+      // Query your database to find the user by email
+      const [rows, fields] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
+      return rows[0]; // Assuming the first row is the user
+    } catch (error) {
+      console.error('Error finding user:', error);
+      return null;
+    }
+  },
+  async id => {
+    try {
+      // Query your database to find the user by ID
+      const [rows, fields] = await db.execute("SELECT * FROM users WHERE id = ?", [id]);
+      return rows[0]; // Assuming the first row is the user
+    } catch (error) {
+      console.error('Error finding user:', error);
+      return null;
+    }
+  }
 );
 
-const users = [];
-
-// Set the folder for static files
+// Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
-
 app.use(flash());
 app.use(session({
-  secret: 'mySecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
 app.get('/', checkAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'AB_HomeUI.html'));
+});
+
+// Route to get all users
+app.get('/users', async (req, res) => {
+  try {
+    const [rows, fields] = await db.execute("SELECT * FROM users");
+    console.log('Query results:', rows);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error executing query:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Route to create a new user
+app.post('/users', async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const userData = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: hashedPassword,
+      bday: req.body.bday,
+      phoneNumber: req.body.phoneNumber
+    };
+    const insertResult = await db.execute("INSERT INTO users SET ?", userData);
+    console.log('User created successfully:', req.body.email);
+    res.status(201).send('User created successfully');
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 // Sign-in route
@@ -130,5 +176,8 @@ app.get('/logout', (req, res) => {
     next()
   }
   
-  app.listen(5500)
-  
+// Start the server
+const PORT = process.env.PORT || 5500;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

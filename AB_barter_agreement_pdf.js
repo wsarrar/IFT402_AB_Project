@@ -21,42 +21,54 @@ const printPdf = async () => {
   };
 
   // Generate the PDF using html2pdf
-  await html2pdf().set(opt).from(element).save();
+  await html2pdf().from(element).set(opt).save();
 };
 
-// Attach an event listener to the 'safePdfButton' click event
-document.getElementById('safePdfButton').addEventListener('click', () => {
-
-  // Get the 'barterForm' form element
-  const barterForm = document.getElementById('barterForm');
-
-  // Create a new FormData instance with the form data
-  const formData = new FormData(barterForm);
-
-  // Create a new jsPDF document
-  const pdfDoc = new jsPDF();
-
-  // Calculate the number of pages required to accommodate the form data
-  const pdfPageCount = Math.ceil(formData.size / 150);
-
-  // Loop through each page and add the form data as text
-  for (let i = 0; i < pdfPageCount; i++) {
-    const chunk = Array.from(formData.entries()).slice(i * 150, (i + 1) * 150);
-    const pdfPage = pdfDoc.getPage(i + 1);
-
-    // Add the form data as text to the PDF page
-    chunk.forEach(([name, value]) => {
-      if (value !== undefined && value !== null) {
-        // Determine the coordinates to avoid overlapping form fields
-        const x = (pdfPage.width - 100) / 2;
-        const y = 10 + (15 * (name.length + value.length)) / 2;
-
-        // Write the form data on the PDF page
-        pdfPage.text(`${name}: ${value}`, x, y, { maxWidth: 100 });
-      }
-    });
+// Validate Saving the PDF
+function validateAndSavePdf() {
+  // Perform form validation
+  const form = document.getElementById('barterForm');
+  if (!form.checkValidity()) {
+      // If form is invalid, display error message
+      const errorMessage = document.getElementById('error-message');
+      errorMessage.textContent = 'Please fill out all required fields.';
+      return;
   }
 
-  // Save the generated PDF document on the user's device
-  pdfDoc.save('barter_agreement.pdf');
+  // If form is valid, generate and save PDF
+  const pdf = new jsPDF();
+  const options = {
+      filename: 'barter_agreement.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().from(form).set(options).save();
+}
+
+// Attach an event listener to the 'savePdfButton' click event
+document.getElementById('savePdfButton').addEventListener('click', () => {
+  // Prompt user with a confirmation dialog before saving the PDF
+  const confirmed = confirm('Are you sure you want to save the PDF?');
+
+  if (confirmed) {
+    validateAndSavePdf();
+  }
 });
+
+// Validate and save PDF function
+function validateAndSavePdf() {
+  const requiredFields = ['partyA', 'partyA_offer', 'partyB', 'partyB_offer', 'startDate', 'endDate', 'additionalTerms'];
+
+  // Check if any required field is empty
+  const emptyFields = requiredFields.filter(field => !document.getElementById(field).value.trim());
+
+  if (emptyFields.length > 0) {
+    // Display error message if any required field is empty
+    document.getElementById('error-message').textContent = 'Please fill out all required fields.';
+  } else {
+    // If all required fields are filled out, save the PDF
+    printPdf();
+  }
+}

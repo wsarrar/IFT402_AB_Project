@@ -1,123 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Barter Agreement</title>
-  <link rel="stylesheet" href="AB_home2.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link rel="stylesheet" href="AB_barter_agreement.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barter Agreement</title>
+    <link rel="stylesheet" href="AB_home2.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="AB_barter_agreement.css" />
 
-  <!-- Import jspdf library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <!-- Import jspdf library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
 
-  <!-- Import html-pdf-node library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <!-- Import html-pdf-node library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
-  <!-- Integrate JS Code for Barter Agreement -->
-  <script type="text/javascript" src="AB_barter_agreement_pdf.js"></script>
-</head>
-<body>
-  <header>
-    <h1>AntBarter</h1>
-    <nav>
-      <div>
-        <a href="javascript:void(0);" data-target="home">Home</a>
-        <a href="javascript:void(0);" data-target="about">About</a>
-        <a href="javascript:void(0);" data-target="how-it-works">How It Works</a>
-        <a href="javascript:void(0);" data-target="contact">Contact</a>
-        <a href="AB_create_bp.html">Create Posting</a>
-        <a href="AB_find_bp.html">Find Posting</a>
-      </div>
-      <div id="userLoggedIn" style="display: flex">
-        <a href="AB_profile.html">
-          <i class="fas fa-user"></i>
-        </a>
-        <p id="userName">First Last</p>
-        <a href="AB_messages.html">
-          <i class="fas fa-envelope"></i>
-        </a>
-        <p>Messages</p>
-      </div>
-      <button id="sign-out">Sign Out</button>
-    </nav>
-  </header>
+    <!-- Integrate JS Code for Barter Agreement -->
+    <script type="text/javascript" src="AB_barter_agreement_pdf.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>AntBarter</h1>
+      <nav>
+        <div>
+          <a href="javascript:void(0);" data-target="home">Home</a>
+          <a href="javascript:void(0);" data-target="about">About</a>
+          <a href="javascript:void(0);" data-target="how-it-works"
+            >How It Works</a
+          >
+          <a href="javascript:void(0);" data-target="contact">Contact</a>
+          <a href="AB_create_bp.html">Create Posting</a>
+          <a href="AB_find_bp.html">Find Posting</a>
+        </div>
+        <div id="userLoggedIn" style="display: flex">
+          <a href="AB_profile.html">
+            <i class="fas fa-user"></i>
+          </a>
+          <p id="userName">First Last</p>
+          <a href="AB_messages.html">
+            <i class="fas fa-envelope"></i>
+          </a>
+          <p>Messages</p>
+        </div>
+        <button id="sign-out">Sign Out</button>
+      </nav>
+    </header>
 
-  <div class="hero">
-    <img src="AB_business_logo.jpg" alt="Logo" class="logo" />
-  </div>
-
-  <h2>Barter Agreement</h2>
-  <form id="barterForm">
-    <div class="radio-option">
-      <label for="barterType">Barter Type:</label><br>
-      <input type="radio" id="oneTime" name="barterType" value="oneTime" onchange="updateAdditionalTerms()">
-      <label for="oneTime">One-Time Transaction</label><br>
-      <input type="radio" id="ongoing" name="barterType" value="ongoing" onchange="updateAdditionalTerms()">
-      <label for="ongoing">Ongoing Arrangement</label><br>
+    <div class="hero">
+      <img src="AB_business_logo.jpg" alt="Logo" class="logo" />
     </div>
-    
-    <label for="partyA">Party A</label>
-    <input type="text" id="partyA" name="partyA" placeholder="Enter Party A's Name" required />
-  </div>
+
+    <h2>Barter Agreement</h2>
+    <form id="barterForm">
+      <div class="radio-option">
+        <label for="barterType">Barter Type:</label><br />
+        <input
+          type="radio"
+          id="oneTime"
+          name="barterType"
+          value="oneTime"
+          onchange="toggleFields()"
+        />
+        <label for="oneTime">One-Time Transaction</label><br />
+        <input
+          type="radio"
+          id="ongoing"
+          name="barterType"
+          value="ongoing"
+          onchange="toggleFields()"
+        />
+        <label for="ongoing">Ongoing Arrangement</label><br />
+      </div>
+
+      <div class="form-group one-time">
+        <label for="partyA_offer_oneTime">Party A's Offering (One-Time):</label>
+        <textarea
+          id="partyA_offer_oneTime"
+          name="partyA_offer_oneTime"
+          placeholder="Goods Ex: Othman is offering 5 chickens worth $50."
+        ></textarea>
+      </div>
+
+      <div class="form-group ongoing">
+        <label for="partyA_offer_ongoing">Party A's Offering (Ongoing):</label>
+        <textarea
+          id="partyA_offer_ongoing"
+          name="partyA_offer_ongoing"
+          placeholder="Services Ex: Othman agrees to provide landscaping services to Party B's property every two weeks in exchange for Party B providing fresh produce from his garden during the harvest season."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="partyB">Party B</label>
+        <input
+          required
+          type="text"
+          id="partyB"
+          name="partyB"
+          placeholder="Enter Party B's Name"
+          required
+        />
+      </div>
+
+      <div class="form-group one-time" style="display: none">
+        <label for="partyB_offer_oneTime">Party B's Offering (One-Time):</label>
+        <textarea
+          required
+          id="partyB_offer_oneTime"
+          name="partyB_offer_oneTime"
+          placeholder="Goods Ex: Wasfi is interested in trading 1 goat with a value of $50."
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-group ongoing" style="display: none">
+        <label for="partyB_offer_ongoing">Party B's Offering (Ongoing):</label>
+        <textarea
+          required
+          id="partyB_offer_ongoing"
+          name="partyB_offer_ongoing"
+          placeholder="Goods Ex: Wasfi is interested in trading 1 goat with a value of $50."
+          required
+        ></textarea>
+      </div>
+
+      <label for="startDate">Start Date:</label>
+      <input
+        required
+        type="date"
+        id="startDate"
+        name="startDate"
+        required
+      /><br />
+
+      <label for="endDate">End Date:</label>
+      <input required type="date" id="endDate" name="endDate" required /><br />
+
+      <label for="additionalTerms">Additional Terms:</label>
+      <textarea
+        required
+        id="additionalTerms"
+        name="additionalTerms"
+        placeholder="I. The parties agree that any dispute arising from this agreement shall be resolved through negotiation.
+
+II. Party A agrees to deliver the chickens to Party B's residence within 3 business days of the agreement date.
   
-  <div class="form-group">
-    <label for="partyA_offer">Party A's Offering</label>
-    <textarea id="partyA_offer" name="partyA_offer" placeholder=" Goods Ex: Dr. Tatiana is offering 5 chickens worth $50." required></textarea>
-  </div>
+III. Party B agrees to provide one goat in exchange for the chickens, with delivery to take place after receiving.
   
-  <div class="form-group">
-    <label for="partyB">Party B</label>
-    <input type="text" id="partyB" name="partyB" placeholder="Enter Party B's Name" required />
-  </div>
+IV. In case of any changes or issues occurring during the barter transaction, the parties agree to notify each other quickly.
+  
+V. This agreement will apply to the parties, as well as each of their respective successors and assigns."
+      ></textarea
+      ><br />
+      <div class="form-group">
+        <button type="button" id="savePdfButton" onclick="validateAndSavePdf()">
+          Save PDF
+        </button>
+      </div>
+      <div id="error-message" style="color: red"></div>
+    </form>
 
-  <div class="form-group">
-    <label for="partyB_offer">Party B's Offering</label>
-    <textarea id="partyB_offer" name="partyB_offer" placeholder="Goods Ex: Wasfi is interested in trading 1 goat with a value of $50." required></textarea>
-    
-  <label for="startDate">Start Date:</label>
-  <input type="date" id="startDate" name="startDate" required><br>
-    
-  <label for="endDate">End Date:</label>
-  <input type="date" id="endDate" name="endDate" required><br>
-    
-  <label for="additionalTerms">Additional Terms:</label><br>
-<textarea id="additionalTerms" name="additionalTerms" placeholder="
-  I. The parties agree that any dispute arising from this agreement shall be resolved through negotiation.
-  II. Party A agrees to deliver the chickens to Party B's residence within 3 business days of the agreement date.
-  III. Party B agrees to provide one goat in exchange for the chickens, with delivery to take place after receiving.
-  IV. In case of any changes or issues occurring during the barter transaction, the parties agree to notify each other quickly.
-  V. This agreement will apply to the parties, as well as each of their respective successors and assigns."></textarea><br>
-<div class="form-group">
-  <button type="button" id="safePdfButton" onclick="saveToPdf()">Save PDF</button>
-</div>
-</form>
+    <!-- JS script to handle Barter Type and Additional Terms-->
+    <script>
+      function toggleFields() {
+        const oneTimeSelected = document.getElementById("oneTime").checked;
 
-<!-- JS script to handle Additional Terms and the type of barter transaction -->
-<script>
-  document.getElementById('additionalTerms').addEventListener('input', function() {
-    if (this.placeholder) {
-        this.placeholder = '';
-    }
-});
+        const oneTimeFields = document.querySelectorAll(".one-time");
+        const ongoingFields = document.querySelectorAll(".ongoing");
 
-function updateAdditionalTerms() {
-    const oneTimeTerms = `
+        const partyBOfferOneTime = document.getElementById(
+          "partyB_offer_oneTime"
+        );
+        const partyBOfferOngoing = document.getElementById(
+          "partyB_offer_ongoing"
+        );
+
+        if (oneTimeSelected) {
+          // Show one-time transaction fields and hide ongoing fields
+          oneTimeFields.forEach((field) => (field.style.display = "block"));
+          ongoingFields.forEach((field) => (field.style.display = "none"));
+
+          // Hide Party B fields for ongoing arrangement
+          partyBOfferOngoing.style.display = "none";
+          partyBOfferOngoing.required = false;
+
+          // Show Party B fields for one-time transaction
+          partyBOfferOneTime.style.display = "block";
+          partyBOfferOneTime.required = true;
+        } else {
+          // Show ongoing fields and hide one-time transaction fields
+          oneTimeFields.forEach((field) => (field.style.display = "none"));
+          ongoingFields.forEach((field) => (field.style.display = "block"));
+
+          // Hide Party B fields for one-time transaction
+          partyBOfferOneTime.style.display = "none";
+          partyBOfferOneTime.required = false;
+
+          // Show Party B fields for ongoing arrangement
+          partyBOfferOngoing.style.display = "block";
+          partyBOfferOngoing.required = true;
+        }
+      }
+
+      function updateAdditionalTerms() {
+        const oneTimeTerms = `
         – On a Specific Date. The Offerings shall be exchanged and delivered by each party on or before [DATE].
     `;
-    const ongoingTerms = `
+        const ongoingTerms = `
         – For an Ongoing Arrangement. The Offerings shall be exchanged for an ongoing arrangement until terminated by either of the Parties. If any of the Parties shall terminate this Agreement, any outstanding Offerings shall remain owed. Termination of this Agreement must be done in writing and to the mailing address mentioned in Section I.
     `;
 
-    const additionalTermsTextarea = document.getElementById('additionalTerms');
-    const barterType = document.querySelector('input[name="barterType"]:checked').value;
+        const additionalTermsTextarea =
+          document.getElementById("additionalTerms");
+        const barterType = document.querySelector(
+          'input[name="barterType"]:checked'
+        ).value;
 
-    if (barterType === 'oneTime') {
-        additionalTermsTextarea.placeholder = oneTimeTerms;
-    } else if (barterType === 'ongoing') {
-        additionalTermsTextarea.placeholder = ongoingTerms;
-    }
-}
-</script>
-</body>
+        if (barterType === "oneTime") {
+          additionalTermsTextarea.placeholder = oneTimeTerms;
+        } else if (barterType === "ongoing") {
+          additionalTermsTextarea.placeholder = ongoingTerms;
+        }
+      }
+
+      document
+        .getElementById("additionalTerms")
+        .addEventListener("input", function () {
+          if (this.placeholder) {
+            this.placeholder = "";
+          }
+        });
+    </script>
+  </body>
 </html>

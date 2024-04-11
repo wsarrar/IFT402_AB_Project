@@ -1,9 +1,9 @@
 // Function to check if passwords match
-const checkPasswordMatch = (formElement) => {
-  const passwordInput = formElement.querySelector('#password');
-  const confirmPasswordInput = formElement.querySelector('#confirmPassword');
-  const confirmPasswordError = formElement.querySelector('.confirm-password-error');
-  const confirmPasswordSuccess = formElement.querySelector('.confirm-password-success');
+const checkPasswordMatch = () => {
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirmPassword');
+  const confirmPasswordError = document.querySelector('.confirm-password-error');
+  const confirmPasswordSuccess = document.querySelector('.confirm-password-success');
 
   if (passwordInput.value !== confirmPasswordInput.value) {
     confirmPasswordError.classList.remove('hidden');
@@ -19,41 +19,42 @@ const checkPasswordMatch = (formElement) => {
 };
 
 // Add event listeners for input and blur events on password and confirm password fields
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form[name='user_sign_up']");
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.querySelector('form[name="user_sign_up"]');
   const confirmPasswordInput = form.querySelector('#confirmPassword');
-  confirmPasswordInput.addEventListener("input", () => checkPasswordMatch(form));
-  confirmPasswordInput.addEventListener("blur", () => checkPasswordMatch(form));
+  confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+  confirmPasswordInput.addEventListener('blur', checkPasswordMatch);
 });
 
-  // Added an event listener that checks the password match before the form is submitted
-  document.addEventListener("DOMContentLoaded", function () {
-    // Add a submit event listener to the form
-    const form = document.querySelector("form[name='user_sign_up']");
-    form.addEventListener("submit", function (event) {
-      const passwordInput = document.getElementById("password");
-      const confirmPasswordInput = document.getElementById("confirmPassword");
-      const confirmPasswordError = document.querySelector('.confirm-password-error');
-      const confirmPasswordSuccess = document.querySelector('.confirm-password-success');
-  
-      // If the passwords don't match, show the error message and prevent form submission
-      if (passwordInput.value !== confirmPasswordInput.value) {
-        confirmPasswordError.classList.remove("hidden");
-        confirmPasswordError.classList.add("opacity-100", "pointer-events-auto");
-        confirmPasswordSuccess.classList.remove("opacity-100", "pointer-events-auto");
-        confirmPasswordSuccess.classList.add("hidden");
-        event.preventDefault();
-      }
-      // If the passwords match, clear the error message and allow form submission
-      else {
-        confirmPasswordError.classList.remove("opacity-100", "pointer-events-auto");
-        confirmPasswordError.classList.add("hidden");
-        confirmPasswordSuccess.classList.remove("hidden");
-        confirmPasswordSuccess.classList.add("opacity-100", "pointer-events-auto");
-      }
-    });
-  });
+// Added an event listener that checks the password match before the form is submitted
+document.addEventListener('DOMContentLoaded', function () {
+  // Add a submit event listener to the form
+  const form = document.querySelector('form[name="user_sign_up"]');
+  form.addEventListener('submit', function (event) {
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const confirmPasswordError = document.querySelector('.confirm-password-error');
+    const confirmPasswordSuccess = document.querySelector('.confirm-password-success');
 
+    // If the passwords don't match, show the error message and prevent form submission
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      confirmPasswordError.classList.remove('hidden');
+      confirmPasswordError.classList.add('opacity-100', 'pointer-events-auto');
+      confirmPasswordSuccess.classList.remove('opacity-100', 'pointer-events-auto');
+      confirmPasswordSuccess.classList.add('hidden');
+      event.preventDefault();
+    }
+    // If the passwords match, clear the error message and allow form submission
+    else {
+      confirmPasswordError.classList.remove('opacity-100', 'pointer-events-auto');
+      confirmPasswordError.classList.add('hidden');
+      confirmPasswordSuccess.classList.remove('hidden');
+      confirmPasswordSuccess.classList.add('opacity-100', 'pointer-events-auto');
+    }
+  });
+});
+
+// Validate that the form works as expected
 const validateForm = (formSelector) => {
   const formElement = document.getElementById(formSelector);
   let error = 0;

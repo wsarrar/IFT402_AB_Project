@@ -266,7 +266,7 @@ textarea {
   }
 
   /* Button styling */
-  button[type="button"]#safePdfButton {
+  button[type="button"]#savePdfButton {
     padding: 10px 15px;
     font-size: 16px;
     background-color: #a72e2e;
@@ -275,8 +275,8 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
+}
 
-  button[type="button"]#safePdfButton:hover {
+button[type="button"]#savePdfButton:hover {
     background-color: #000;
-  }
+}

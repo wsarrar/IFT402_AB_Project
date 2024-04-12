@@ -1,5 +1,3 @@
-BlackBox adjusted code for php code: 
-
 <?php
 $host = "ls-5a1a450da9b72ee816d64ca751459a1171836a83.c9iwyumu4w7q.us-west-2.rds.amazonaws.com";
 $port = 3306;

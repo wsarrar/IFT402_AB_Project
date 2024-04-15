@@ -17,10 +17,10 @@
       <h1>AntBarter</h1>
       <nav>
         <div>
-          <a href="AB_home.html">Home</a>
-          <a href="AB_about.html">About</a>
-          <a href="AB_how-it-works.html">How It Works</a>
-          <a href="AB_contact.html">Contact</a>
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#contact">Contact</a>
           <a href="AB_create_bp.html">Create Posting</a>
           <a href="AB_find_bp.html">Find Posting</a>
         </div>
@@ -43,27 +43,28 @@
     </div>
 
     <!-- Home Page Content -->
-    <div id="home-content"></div>
+    <div class="content-page" id="home"></div>
 
     <!-- About Page Content -->
-    <div id="about-content"></div>
+    <div class="content-page" id="about"></div>
 
     <!-- How It Works Page Content -->
-    <div id="how-it-works-content"></div>
+    <div class="content-page" id="how-it-works"></div>
 
     <!-- Contact Page Content -->
-    <div id="contact-content"></div>
+    <div class="content-page" id="contact"></div>
 
     <footer>
       <p>&copy; 2024 AntBarter | Designed with ❤️</p>
     </footer>
+
     <script>
       // Load content for each section
       window.addEventListener("DOMContentLoaded", function () {
-        loadContent("AB_home.html", "home-content");
-        loadContent("AB_about.html", "about-content");
-        loadContent("AB_how-it-works.html", "how-it-works-content");
-        loadContent("AB_contact.html", "contact-content");
+        loadContent("AB_home.html", "home");
+        loadContent("AB_about.html", "about");
+        loadContent("AB_how-it-works.html", "how-it-works");
+        loadContent("AB_contact.html", "contact");
       });
 
       // Function to fetch content from external HTML files asynchronously

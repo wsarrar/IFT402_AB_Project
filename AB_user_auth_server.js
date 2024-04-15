@@ -15,11 +15,12 @@ if (!sessionSecret) {
 
 console.log('SESSION_SECRET:', sessionSecret);
 
-const { createPool } = require('mysql2/promise');
+const { createPool } = require('mysql2');
 const express = require('express');
 const app = express();
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
+const { check, validationResult } = require('express-validator');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
@@ -41,14 +42,14 @@ const db = createPool({
 console.log('Connecting to the database');
 
 // Define initializePassport function
-const initializePassport = require('./passport-config');
+const initializePassport = require('./passport-config.js');
 
 initializePassport(
   passport,
   async email => {
     try {
-      const [rows, fields] = await db.execute("SELECT * FROM user");
-      return rows[0];
+      const [rows, fields] = await db.execute("SELECT * FROM ab_users WHERE Email = ?", [email]);
+      return rows[0]; // Assuming email is unique, so return the first row
     } catch (error) {
       console.error('Error finding user:', error);
       return null;
@@ -56,8 +57,8 @@ initializePassport(
   },
   async id => {
     try {
-      const [rows, fields] = await db.execute("SELECT * FROM user WHERE UserID =?", [id]);
-      return rows[0];
+      const [rows, fields] = await db.execute("SELECT * FROM ab_users WHERE UserID = ?", [id]);
+      return rows[0]; // Assuming UserID is unique, so return the first row
     } catch (error) {
       console.error('Error finding user:', error);
       return null;
@@ -65,8 +66,9 @@ initializePassport(
   }
 );
 
-// Middleware
+// Define middleware
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.urlencoded({ extended: false }));
 app.use(flash());
 app.use(session({
@@ -79,13 +81,13 @@ app.use(passport.session());
 app.use(methodOverride('_method'));
 
 app.get('/', checkAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'AB_HomeUI.html'));
+  res.sendFile(path.join(__dirname, 'AB_SignIn.html'));
 });
 
 // Route to get all users
 app.get('/user', async (req, res) => {
   try {
-    const [rows, fields] = await db.execute("SELECT * FROM user");
+    const [rows, fields] = await db.execute("SELECT * FROM ab_users");
     console.log('Query results:', rows);
     res.json(rows);
   } catch (error) {
@@ -100,23 +102,35 @@ const { v4: uuidv4 } = require('uuid');
 app.post('/SignUp', checkNotAuthenticated, async (req, res) => {
   try {
       // Generate a hashed password
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const hashedPassword = await bcrypt.hash(req.body.Password, 12);
 
       // Prepare user data
       const userData = {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          password: hashedPassword,
-          bday: req.body.bday,
-          phoneNumber: req.body.phoneNumber
+        FirstName: req.body.FirstName,
+        LastName: req.body.LastName,
+        Email: req.body.Email,
+        Password: hashedPassword,
+        Birthday: req.body.Birthday,
+        PhoneNumber: req.body.PhoneNumber
       };
 
       // Insert the user
-      const insertResult = await db.execute("INSERT INTO user SET ?", userData);
+      const insertResult = await db.execute("INSERT INTO ab_users SET ?", userData);
 
-      // Redirect the user to the confirmation page
-      res.redirect('/AB_SignUp_pg3.html');
+      // Check if the insertion was successful
+      if (insertResult[0].affectedRows === 1) {
+        // Display a confirmation message
+        console.log('User created successfully:', req.body.Email);
+        
+        // Redirect the user to the confirmation page
+        return res.redirect('/AB_SignUp_pg3.html');
+      } else {
+        // Display an error message if the insertion failed
+        console.error('User creation failed');
+  
+        // Send an error response to the client
+        return res.status(500).json({ message: 'Failed to create user. Please try again.' });
+        }
 
   } catch (error) {
       // Display error message if the user creation fails
@@ -127,41 +141,57 @@ app.post('/SignUp', checkNotAuthenticated, async (req, res) => {
 
 // Sign-in route
 app.get('/SignIn', checkNotAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'AB_SignIn.html'));
+  res.sendFile(path.join(__dirname, 'AB_SignIn.html'));
 });
 
-// Sign-up route
-app.get('/SignUp', checkNotAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'AB_signup_pg2.html'));
-});
+// Define an array of validation checks
+const signUpValidation = [
+  check('Email')
+    .isEmail()
+    .withMessage('Please enter a valid email address.'),
+  check('Password')
+    .isLength({ min: 12 })
+    .withMessage('Password must be at least 8 characters long.')
+    // Add more validation checks as needed
+];
 
 // Sign-up post request
-app.post('/SignUp', checkNotAuthenticated, async (req, res) => {
+app.post('/SignUp', signUpValidation, checkNotAuthenticated, async (req, res) => {
   try {
-      // Generate a hashed password
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    // Perform validation checks
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // If there are validation errors, send them to the client
+      return res.status(400).json({ errors: errors.array() });
+    }
+    
+    // Generate a hashed password
+    const hashedPassword = await bcrypt.hash(req.body.Password, 12);
 
-      // Prepare user data
-      const userData = {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          password: hashedPassword,
-          bday: req.body.bday,
-          phoneNumber: req.body.phoneNumber
-      };
+    // Prepare user data
+    const userData = {
+      FirstName: req.body.FirstName,
+      LastName: req.body.LastName,
+      Email: req.body.Email,
+      Password: hashedPassword,
+      Birthday: req.body.Birthday,
+      PhoneNumber: req.body.PhoneNumber
+    };
 
-      // Insert the user
-      const insertResult = await db.execute("INSERT INTO user SET ?", userData);
+    // Insert the user
+    const insertResult = await db.execute("INSERT INTO ab_users SET ?", userData);
 
-      // Display a confirmation message
-      console.log('User created successfully:', req.body.email);
-      res.redirect('/SignIn');
+    // Display a confirmation message
+    console.log('User created successfully:', req.body.Email);
 
+    // Redirect the user to the confirmation page
+    return res.redirect('/AB_SignUp_pg3.html');
   } catch (error) {
-      // Display error message if the user creation fails
-      console.error('Error during sign-up process:', error);
-      res.redirect('/SignUp');
+    // Display error message if the user creation fails
+    console.error('Error during sign-up process:', error);
+    
+    // Send a more descriptive error message to the client
+    return res.status(500).json({ message: 'An error occurred during the sign-up process. Please try again.' });
   }
 });
 

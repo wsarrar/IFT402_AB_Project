@@ -28,7 +28,7 @@ header {
 header h1 {
   font-size: 2em;
   font-family: 'Arial', sans-serif;
-  color: #a72e2e;; /* Change the color */
+  color: #a72e2e;
   margin: 0;
   padding: 10px; /* Add some padding */
 }

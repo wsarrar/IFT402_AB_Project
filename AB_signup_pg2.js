@@ -1,6 +1,6 @@
 // Function to check if passwords match
 const checkPasswordMatch = () => {
-  const passwordInput = document.getElementById('password');
+  const passwordInput = document.getElementById('Password');
   const confirmPasswordInput = document.getElementById('confirmPassword');
   const confirmPasswordError = document.querySelector('.confirm-password-error');
   const confirmPasswordSuccess = document.querySelector('.confirm-password-success');
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Add a submit event listener to the form
   const form = document.querySelector('form[name="user_sign_up"]');
   form.addEventListener('submit', function (event) {
-    const passwordInput = document.getElementById('password');
+    const passwordInput = document.getElementById('Password');
     const confirmPasswordInput = document.getElementById('confirmPassword');
     const confirmPasswordError = document.querySelector('.confirm-password-error');
     const confirmPasswordSuccess = document.querySelector('.confirm-password-success');
@@ -42,8 +42,9 @@ document.addEventListener('DOMContentLoaded', function () {
       confirmPasswordError.classList.add('opacity-100', 'pointer-events-auto');
       confirmPasswordSuccess.classList.remove('opacity-100', 'pointer-events-auto');
       confirmPasswordSuccess.classList.add('hidden');
-      event.preventDefault();
+      event.preventDefault(); // Prevent form submission here 
     }
+    
     // If the passwords match, clear the error message and allow form submission
     else {
       confirmPasswordError.classList.remove('opacity-100', 'pointer-events-auto');
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
       confirmPasswordSuccess.classList.remove('hidden');
       confirmPasswordSuccess.classList.add('opacity-100', 'pointer-events-auto');
     }
+
   });
 });
 
@@ -89,17 +91,15 @@ const validateForm = (formSelector) => {
     {
       attribute: 'confirm-password',
       isValid: (input, formElement) => {
-        const passwordInput = formElement.querySelector('input[type="password"]');
+        const passwordInput = formElement.querySelector('input[type="Password"]');
         return passwordInput && input.value === passwordInput.value;
       },
       errorMessage: (input, label) => `Passwords do not match`,
     },
   ];
 
-document.getElementById("password").addEventListener("input", checkPasswordMatch);
-document.getElementById("confirmPassword").addEventListener("blur", checkPasswordMatch);
-
-  // Call the checkPasswordMatch function with the form elementcheckPasswordMatch(formElement);
+  // Call the checkPasswordMatch function with the form element
+  checkPasswordMatch(formElement);
 
   const validateSingleFormGroup = (formGroup, formElement) => {
     const label = formGroup.querySelector('label');
@@ -160,8 +160,8 @@ document.getElementById("confirmPassword").addEventListener("blur", checkPasswor
   // Enable validation for each control whilst updating form
   Array.from(formElement.elements).forEach(element =>
     element.addEventListener('blur', event => {
-      if (['password', 'confirm-password'].includes(event.srcElement.id)) {
-        const passwordInput = formElement.querySelector('input[type="password"]');
+      if (['Password', 'confirm-password'].includes(event.srcElement.id)) {
+        const passwordInput = formElement.querySelector('input[type="Password"]');
         const confirmPasswordInput = formElement.querySelector('input[match-password]');
   
         if (passwordInput.value !== confirmPasswordInput.value) {
@@ -182,7 +182,7 @@ document.getElementById("confirmPassword").addEventListener("blur", checkPasswor
   
     // Add the input event listener for both password and confirm password fields
     formElement.addEventListener('input', (event) => {
-      if (event.target.type === 'password' || event.target.id === 'confirmPassword') {
+      if (event.target.type === 'Password' || event.target.id === 'confirmPassword') {
         validateSingleFormGroup(event.target.parentElement.parentElement);
       }
     });
@@ -209,7 +209,7 @@ document.getElementById("confirmPassword").addEventListener("blur", checkPasswor
 
     if (error === 0) {
       // Check if passwords match      
-      const passwordInput = formElement.querySelector('input[type="password"]');
+      const passwordInput = formElement.querySelector('input[type="Password"]');
       const confirmPasswordInput = formElement.querySelector('input[match-password]');
       if (passwordInput.value !== confirmPasswordInput.value) {
         const confirmPasswordFormGroup = confirmPasswordInput.parentElement.parentElement;
@@ -252,4 +252,4 @@ document.getElementById("confirmPassword").addEventListener("blur", checkPasswor
 };
 
 // Call validateForm function with the form selector
-validateForm('#user_sign_up', document.querySelector(formSelector));
+validateForm('form[name="user_sign_up"]');
